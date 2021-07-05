@@ -1,0 +1,2 @@
+rootProject.name = "Summer_school_HW"
+include ':app'
