@@ -7,7 +7,6 @@ import android.util.Log
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        Log.i("Message","Hello")
+        setContentView(R.layout.activity_movie_details)
     }
 }
