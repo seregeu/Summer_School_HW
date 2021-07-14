@@ -1,5 +1,6 @@
 package com.example.summer_school_hw
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -28,14 +29,6 @@ class MainActivity : AppCompatActivity() {
         )
             //transferring data to the adapter
         recyclerView.adapter = CustomRecyclerAdapter(actors)
-
-        navView.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                nav_home -> Log.i("menu","tapped_home" )
-                nav_profile -> Log.i("menu","tapped_profile" )
-                else -> null
-            } != null
-        }
     }
 }
 
