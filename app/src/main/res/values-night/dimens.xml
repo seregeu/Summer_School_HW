@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sh_genre_oval_width" >64dp</dimen>
+    <dimen name="sh_genre_oval_height" >20dp</dimen>
+    <dimen name="text_size_genre">10sp</dimen>
+    <dimen name="text_size_data">12sp</dimen>
+    <dimen name="sh_age_limit_circle_width">44dp</dimen>
+    <dimen name="sh_age_limit_circle_height">44dp</dimen>
+</resources>
