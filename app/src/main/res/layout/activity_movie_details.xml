@@ -10,19 +10,20 @@
     >
 
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageView
         android:id="@+id/shapeableImageView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/image_wrath_of_man"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/roundedImageView"/>
+    android:scaleType="centerCrop"/>
+    <!--app:shapeAppearanceOverlay="@style/roundedImageView"-->
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -160,7 +161,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_actors"
                 android:layout_width="wrap_content"
-                android:layout_height="336dp"
+                android:layout_height="340dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="332dp"
