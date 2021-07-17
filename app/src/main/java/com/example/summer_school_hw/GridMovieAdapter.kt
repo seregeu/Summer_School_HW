@@ -1,5 +1,6 @@
 package com.example.summer_school_hw
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,7 @@ import com.example.summer_school_hw.data.dto.MovieDto
 import com.google.android.material.imageview.ShapeableImageView
 
 class GridMovieAdapter(private val movies: List<MovieDto>,
-                       private val listener: OnItemClickListener): RecyclerView.Adapter<GridMovieAdapter.ViewHolder>()  {
+                       private val listener: OnItemFilmListener): RecyclerView.Adapter<GridMovieAdapter.ViewHolder>()  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflate the custom view from xml layout file
@@ -28,9 +29,8 @@ class GridMovieAdapter(private val movies: List<MovieDto>,
         holder.movie_description?.text=movie.description
         holder.movie_rating?.rating  = movie.rateScore.toFloat()
         holder.age_limit?.text = movie.ageRestriction.toString()+"+"
-
+        Log.i("Bind: ", "bind, position = " + position);
     }
-
 
     override fun getItemCount(): Int {
         return movies.size
@@ -57,12 +57,12 @@ class GridMovieAdapter(private val movies: List<MovieDto>,
         override fun onClick(v: View?) {
             val posititon: Int = adapterPosition
             if (posititon!=RecyclerView.NO_POSITION) {
-                listener.onItemClick(posititon)
+                listener.onItemClick(posititon,1)
             }
         }
     }
-    interface OnItemClickListener{
-        fun onItemClick(position: Int)
+    interface OnItemFilmListener{
+        fun onItemClick(position: Int,mode:Int)
     }
 
     // this two methods useful for avoiding duplicate item

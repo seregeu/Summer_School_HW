@@ -6,6 +6,7 @@ import com.example.summer_school_hw.data.dto.GenreDto
 
 class GenresDataSourceImpl:GenresDataSouce {
     override fun getGenres()=listOf(
+        GenreDto("18", 0),
         GenreDto("Боевик", 28),
         GenreDto("Приключения", 12),
         GenreDto("Мультик", 16),
