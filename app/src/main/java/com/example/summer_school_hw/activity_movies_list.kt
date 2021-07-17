@@ -43,7 +43,6 @@ class activity_movies_list : AppCompatActivity(),GridMovieAdapter.OnItemFilmList
             recyclerViewMovies.layoutManager = this
         }
         recyclerViewMovies.adapter = GridMovieAdapter(movies,this)
-
         recyclerViewMovies.addItemDecoration(
             SpacesItemDecoration(getResources().getDimension(R.dimen.movieCardmarginVervical).toInt(),
                 getResources().getDimension(R.dimen.movieCardmarginHorizontal).toInt())
@@ -67,4 +66,5 @@ class activity_movies_list : AppCompatActivity(),GridMovieAdapter.OnItemFilmList
             }
         }
     }
+
 }

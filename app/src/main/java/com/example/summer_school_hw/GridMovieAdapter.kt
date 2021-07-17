@@ -76,4 +76,3 @@ class GridMovieAdapter(private val movies: List<MovieDto>,
     }
 
 }
-
