@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.summer_school_hw.data.dto.ActorDto
 
-class CustomRecyclerAdapter(private val actors: List<Actor>) :
-    RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
+class ActorRecyclerAdapter(private val actors: List<ActorDto>) :
+    RecyclerView.Adapter<ActorRecyclerAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var _ImageView: ImageView? = null
