@@ -6,27 +6,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class SpacesItemDecoration(
-    private val spaceSize: Int,
-    private val spanCount: Int = 1,
-    private val orientation: Int = GridLayoutManager.VERTICAL
+    private val topBottom: Int = 0,
+    private val leftRight: Int
 ) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect, view: View,
         parent: RecyclerView, state: RecyclerView.State
     ) {
-        with(outRect) {
-            if (orientation == GridLayoutManager.VERTICAL) {
-                if (parent.getChildAdapterPosition(view) % spanCount == 0) {
-                    left = spaceSize
-                }
-            } else {
-
-                if (parent.getChildAdapterPosition(view) % spanCount == 0) {
-                    top = spaceSize
-                }
-            }
-            right = spaceSize
-            bottom = spaceSize
-        }
+       super.getItemOffsets(outRect, view, parent, state)
+        outRect.bottom=topBottom
+        outRect.top = 0
+        outRect.right = 2*leftRight
+        outRect.left = 0
     }
 }

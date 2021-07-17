@@ -5,8 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.summer_school_hw.data.dto.GenreDto
 
-class GenreRecyclerAdapter(private val genres: List<String>) :
+class GenreRecyclerAdapter(private val genres: List<GenreDto>) :
     RecyclerView.Adapter<GenreRecyclerAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -24,7 +25,7 @@ class GenreRecyclerAdapter(private val genres: List<String>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder._TextView?.text = genres[position]
+        holder._TextView?.text = genres[position].genreName
     }
 
     override fun getItemCount() = genres.size

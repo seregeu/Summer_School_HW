@@ -1,32 +1,33 @@
 package com.example.summer_school_hw
 
-import android.graphics.Rect
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.summer_school_hw.data.features.actors.ActorsDataSourceImpl
+import com.example.summer_school_hw.data.dto.MovieDto
+import com.example.summer_school_hw.data.features.genres.GenresDataSourceImpl
 import com.example.summer_school_hw.data.features.movies.MoviesDataSourceImpl
-import com.example.summer_school_hw.data.presentation.ActorsModel
+import com.example.summer_school_hw.data.presentation.GenresModel
 import com.example.summer_school_hw.data.presentation.MoviesModel
 
-class activity_movies_list : AppCompatActivity() {
+class activity_movies_list : AppCompatActivity(),GridMovieAdapter.OnItemClickListener {
     private lateinit var moviesModel: MoviesModel
+    private lateinit var genresModel: GenresModel
+    var movies: List<MovieDto> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movies_list)
+        initDataSource()
 
-        //temp
-        val genres: List<String>
-        genres = listOf("Боевики", "Драмы", "Комедии","ОченьДлинноеНазваниеЖанра","ОченьДлинноеНазваниеЖанра2","ОченьДлинноеНазваниеЖанра3")
+        val genres = genresModel.getGenres()
         val recyclerViewGenres: RecyclerView = findViewById(R.id.rv_genres)
         recyclerViewGenres.adapter = GenreRecyclerAdapter(genres)
 
-        initDataSource()
-        // initialize a mutable list of animals
-        val movies = moviesModel.getMovies()
+        // initialize a list of Movies
+        movies = moviesModel.getMovies()
         val recyclerViewMovies: RecyclerView = findViewById(R.id.rv_movies_list)
         // initialize grid layout manager
         GridLayoutManager(
@@ -38,16 +39,21 @@ class activity_movies_list : AppCompatActivity() {
             // specify the layout manager for recycler view
             recyclerViewMovies.layoutManager = this
         }
-
-        // finally, data bind the recycler view with adapter
-        recyclerViewMovies.adapter = GridMovieAdapter(movies)
+        recyclerViewMovies.adapter = GridMovieAdapter(movies,this)
 
         recyclerViewMovies.addItemDecoration(
-            SpacesItemDecoration(resources.getDimensionPixelSize(R.dimen.margin))
+            SpacesItemDecoration(56,30)
         )
+
+
     }
     private fun initDataSource() {
         moviesModel = MoviesModel(MoviesDataSourceImpl())
+        genresModel = GenresModel(GenresDataSourceImpl())
     }
 
+    override fun onItemClick(position: Int) {
+
+        Toast.makeText(this,movies[position].title+" clicked",Toast.LENGTH_SHORT).show()
+    }
 }

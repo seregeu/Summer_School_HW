@@ -10,7 +10,9 @@ import coil.load
 import com.example.summer_school_hw.data.dto.MovieDto
 import com.google.android.material.imageview.ShapeableImageView
 
-class GridMovieAdapter(private val movies: List<MovieDto>): RecyclerView.Adapter<GridMovieAdapter.ViewHolder>() {
+class GridMovieAdapter(private val movies: List<MovieDto>,
+                       private val listener: OnItemClickListener): RecyclerView.Adapter<GridMovieAdapter.ViewHolder>()  {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflate the custom view from xml layout file
         val view: View = LayoutInflater.from(parent.context)
@@ -19,13 +21,14 @@ class GridMovieAdapter(private val movies: List<MovieDto>): RecyclerView.Adapter
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int)  {
         val movie = movies[position]
         holder.movie_name?.text = movie.title
         holder.movie_cover?.load(movie.imageUrl)
         holder.movie_description?.text=movie.description
         holder.movie_rating?.rating  = movie.rateScore.toFloat()
         holder.age_limit?.text = movie.ageRestriction.toString()+"+"
+
     }
 
 
@@ -34,7 +37,7 @@ class GridMovieAdapter(private val movies: List<MovieDto>): RecyclerView.Adapter
     }
 
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),View.OnClickListener{
         var movie_cover: ShapeableImageView? = null
         var movie_name: TextView? = null
         var movie_description: TextView?=null
@@ -47,7 +50,19 @@ class GridMovieAdapter(private val movies: List<MovieDto>): RecyclerView.Adapter
             movie_description = itemView.findViewById(R.id.list_film_description)
             movie_rating = itemView.findViewById(R.id.list_ratingBar_indicator)
             age_limit = itemView.findViewById(R.id.list_text_age_limit)
+
+            itemView.setOnClickListener(this)
         }
+
+        override fun onClick(v: View?) {
+            val posititon: Int = adapterPosition
+            if (posititon!=RecyclerView.NO_POSITION) {
+                listener.onItemClick(posititon)
+            }
+        }
+    }
+    interface OnItemClickListener{
+        fun onItemClick(position: Int)
     }
 
     // this two methods useful for avoiding duplicate item
