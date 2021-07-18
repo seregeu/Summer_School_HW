@@ -19,19 +19,20 @@ class activity_movies_list : AppCompatActivity(),GridMovieAdapter.OnItemFilmList
     private lateinit var genresModel: GenresModel
     var movies: List<MovieDto> = emptyList()
     var genres: List<GenreDto> = emptyList()
+    lateinit var recyclerViewMovies: RecyclerView
+    val the_adapter: GridMovieAdapter = GridMovieAdapter(this)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movies_list)
         initDataSource()
-
-        genres = genresModel.getGenres()
         val recyclerViewGenres: RecyclerView = findViewById(R.id.rv_genres)
+        genres = genresModel.getGenres()
         recyclerViewGenres.adapter = GenreRecyclerAdapter(genres,this)
-
         // initialize a list of Movies
         movies = moviesModel.getMovies()
-        val recyclerViewMovies: RecyclerView = findViewById(R.id.rv_movies_list)
+        recyclerViewMovies = findViewById(R.id.rv_movies_list)
         // initialize grid layout manager
         GridLayoutManager(
             this, // context
@@ -42,7 +43,8 @@ class activity_movies_list : AppCompatActivity(),GridMovieAdapter.OnItemFilmList
             // specify the layout manager for recycler view
             recyclerViewMovies.layoutManager = this
         }
-        recyclerViewMovies.adapter = GridMovieAdapter(movies,this)
+        recyclerViewMovies.adapter = the_adapter
+        updateList(movies)
         recyclerViewMovies.addItemDecoration(
             SpacesItemDecoration(getResources().getDimension(R.dimen.movieCardmarginVervical).toInt(),
                 getResources().getDimension(R.dimen.movieCardmarginHorizontal).toInt())
@@ -59,12 +61,17 @@ class activity_movies_list : AppCompatActivity(),GridMovieAdapter.OnItemFilmList
             2 -> {Toast.makeText(this, genres[position].genreName + " clicked", Toast.LENGTH_SHORT).show()
                 try {
                     val old_list = moviesModel.getMovies()
-                    val new_list = old_list.takeWhile { it.rateScore==genres[position].genreName.toInt() }
+                    val new_list = old_list.filter { it.genre.contains(genres[position])}
+                    updateList(new_list)
                 } catch (e: NumberFormatException) {
-                    Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "There is no films in such genre :((", Toast.LENGTH_SHORT).show()
                 }
             }
         }
+    }
+
+    fun updateList(list: List<MovieDto>) {
+        the_adapter.movies = list
     }
 
 }

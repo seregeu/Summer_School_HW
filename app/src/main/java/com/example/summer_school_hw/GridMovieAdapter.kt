@@ -10,9 +10,13 @@ import android.widget.TextView
 import coil.load
 import com.example.summer_school_hw.data.dto.MovieDto
 import com.google.android.material.imageview.ShapeableImageView
+import kotlin.properties.Delegates
 
-class GridMovieAdapter(private val movies: List<MovieDto>,
-                       private val listener: OnItemFilmListener): RecyclerView.Adapter<GridMovieAdapter.ViewHolder>()  {
+class GridMovieAdapter(private val listener: OnItemFilmListener): RecyclerView.Adapter<GridMovieAdapter.ViewHolder>()  {
+
+    var movies: List<MovieDto> by Delegates.observable(emptyList()) { _, oldList, newList ->
+        autoNotify(oldList, newList) { o, n -> o.title == n.title }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflate the custom view from xml layout file
@@ -35,6 +39,7 @@ class GridMovieAdapter(private val movies: List<MovieDto>,
     override fun getItemCount(): Int {
         return movies.size
     }
+
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),View.OnClickListener{
