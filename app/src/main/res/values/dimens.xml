@@ -4,4 +4,11 @@
     <dimen name="text_size_data">12sp</dimen>
     <dimen name="sh_age_limit_circle_width">44dp</dimen>
     <dimen name="sh_age_limit_circle_height">44dp</dimen>
+    <dimen name="rb_movie_list_min_h">16dp</dimen>
+    <dimen name="rb_movie_list_max_h">14dp</dimen>
+    <dimen name="margin">10dp</dimen>
+    <dimen name="movieCardWidth">150dp</dimen>
+    <dimen name="movieCardmarginHorizontalPortrait">32dp</dimen>
+    <dimen name="movieCardmarginHorizontalLandscape">128dp</dimen>
+    <dimen name="movieCardmarginVervical">56dp</dimen>
 </resources>

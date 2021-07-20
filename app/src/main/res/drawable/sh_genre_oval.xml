@@ -7,5 +7,8 @@
     <size android:width="@dimen/sh_genre_oval_width" android:height="@dimen/sh_genre_oval_height" />
     <corners android:radius="10.0dp" />
     <solid android:color="@color/cardview_gray"/>
-
+    <padding android:left="5dp"
+        android:right="5dp"
+        android:top="2dp"
+        android:bottom="2dp"/>
 </shape>
