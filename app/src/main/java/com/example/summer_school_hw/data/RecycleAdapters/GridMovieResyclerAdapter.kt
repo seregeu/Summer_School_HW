@@ -1,4 +1,4 @@
-package com.example.summer_school_hw
+package com.example.summer_school_hw.data.RecycleAdapters
 
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import coil.load
+import com.example.summer_school_hw.R
+import com.example.summer_school_hw.autoNotify
 import com.example.summer_school_hw.data.dto.MovieDto
 import com.google.android.material.imageview.ShapeableImageView
 import kotlin.properties.Delegates
 
-class GridMovieAdapter(private val listener: OnItemFilmListener): RecyclerView.Adapter<GridMovieAdapter.ViewHolder>()  {
+class GridMovieResyclerAdapter(private val listener: OnItemFilmListener): RecyclerView.Adapter<GridMovieResyclerAdapter.ViewHolder>()  {
 
     var movies: List<MovieDto> by Delegates.observable(emptyList()) { _, oldList, newList ->
         autoNotify(oldList, newList) { o, n -> o.title == n.title }
@@ -28,11 +30,11 @@ class GridMovieAdapter(private val listener: OnItemFilmListener): RecyclerView.A
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int)  {
         val movie = movies[position]
-        holder.movie_name?.text = movie.title
-        holder.movie_cover?.load(movie.imageUrl)
-        holder.movie_description?.text=movie.description
-        holder.movie_rating?.rating  = movie.rateScore.toFloat()
-        holder.age_limit?.text = movie.ageRestriction.toString()+"+"
+        holder.movieName?.text = movie.title
+        holder.movieCover?.load(movie.imageUrl)
+        holder.movieDescription?.text=movie.description
+        holder.movieRating?.rating  = movie.rateScore.toFloat()
+        holder.ageLimit?.text = movie.ageRestriction.toString()+"+"
         Log.i("Bind: ", "bind, position = " + position);
     }
 
@@ -43,18 +45,18 @@ class GridMovieAdapter(private val listener: OnItemFilmListener): RecyclerView.A
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),View.OnClickListener{
-        var movie_cover: ShapeableImageView? = null
-        var movie_name: TextView? = null
-        var movie_description: TextView?=null
-        var movie_rating: RatingBar?=null
-        var age_limit: TextView? = null
+        var movieCover: ShapeableImageView? = null
+        var movieName: TextView? = null
+        var movieDescription: TextView?=null
+        var movieRating: RatingBar?=null
+        var ageLimit: TextView? = null
 
         init {
-            movie_cover = itemView.findViewById(R.id.list_film_cover)
-            movie_name = itemView.findViewById(R.id.list_film_name)
-            movie_description = itemView.findViewById(R.id.list_film_description)
-            movie_rating = itemView.findViewById(R.id.list_ratingBar_indicator)
-            age_limit = itemView.findViewById(R.id.list_text_age_limit)
+            movieCover = itemView.findViewById(R.id.list_film_cover)
+            movieName = itemView.findViewById(R.id.list_film_name)
+            movieDescription = itemView.findViewById(R.id.list_film_description)
+            movieRating = itemView.findViewById(R.id.list_ratingBar_indicator)
+            ageLimit = itemView.findViewById(R.id.list_text_age_limit)
 
             itemView.setOnClickListener(this)
         }

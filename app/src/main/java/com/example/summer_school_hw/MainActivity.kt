@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.summer_school_hw.R.id.*
-import com.example.summer_school_hw.data.dto.ActorDto
+import com.example.summer_school_hw.data.RecycleAdapters.ActorRecyclerAdapter
 import com.example.summer_school_hw.data.features.actors.ActorsDataSourceImpl
 import com.example.summer_school_hw.data.presentation.ActorsModel
 

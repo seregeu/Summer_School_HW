@@ -1,4 +1,4 @@
-package com.example.summer_school_hw
+package com.example.summer_school_hw.data.RecycleAdapters
 
 import android.graphics.Rect
 import android.view.View
@@ -16,7 +16,7 @@ class SpacesItemDecoration(
         super.getItemOffsets(outRect, view, parent, state)
         outRect.bottom=topBottom
         outRect.top = 0
-        outRect.right = 2*leftRight
-        outRect.left = 0
+        outRect.right = 72
+        outRect.left = 72
     }
 }

@@ -1,14 +1,16 @@
-package com.example.summer_school_hw
+package com.example.summer_school_hw.data.RecycleAdapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.summer_school_hw.R
 import com.example.summer_school_hw.data.dto.GenreDto
 
 class GenreRecyclerAdapter(private val genres: List<GenreDto>,
-                           private val listener: GridMovieAdapter.OnItemFilmListener) :
+                           private val listener: GridMovieResyclerAdapter.OnItemFilmListener
+) :
     RecyclerView.Adapter<GenreRecyclerAdapter.MyViewHolder>() {
 
    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),View.OnClickListener {

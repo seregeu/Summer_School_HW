@@ -1,4 +1,4 @@
-package com.example.summer_school_hw
+package com.example.summer_school_hw.data.RecycleAdapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.summer_school_hw.R
 import com.example.summer_school_hw.data.dto.ActorDto
 
 class ActorRecyclerAdapter(private val actors: List<ActorDto>) :
