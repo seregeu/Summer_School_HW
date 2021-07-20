@@ -1,5 +1,7 @@
 package com.example.summer_school_hw
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +25,13 @@ class activity_movies_list : AppCompatActivity(), GridMovieResyclerAdapter.OnIte
     lateinit var recyclerViewMovies: RecyclerView
     val the_adapter: GridMovieResyclerAdapter = GridMovieResyclerAdapter(this)
 
+    private val CardMargin: Int
+    get(){
+        return when (resources.configuration.orientation){
+            Configuration.ORIENTATION_PORTRAIT->getResources().getDimension(R.dimen.movieCardmarginHorizontalPortrait).toInt()
+            else->getResources().getDimension(R.dimen.movieCardmarginHorizontalLandscape).toInt()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +57,7 @@ class activity_movies_list : AppCompatActivity(), GridMovieResyclerAdapter.OnIte
         updateList(movies)
         recyclerViewMovies.addItemDecoration(
             SpacesItemDecoration(getResources().getDimension(R.dimen.movieCardmarginVervical).toInt(),
-                getResources().getDimension(R.dimen.movieCardmarginHorizontal).toInt())
+                CardMargin)
         )
     }
     private fun initDataSource() {

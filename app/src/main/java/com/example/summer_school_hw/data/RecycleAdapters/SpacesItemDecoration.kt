@@ -16,7 +16,7 @@ class SpacesItemDecoration(
         super.getItemOffsets(outRect, view, parent, state)
         outRect.bottom=topBottom
         outRect.top = 0
-        outRect.right = 72
-        outRect.left = 72
+        outRect.right = leftRight
+        outRect.left = leftRight
     }
 }
