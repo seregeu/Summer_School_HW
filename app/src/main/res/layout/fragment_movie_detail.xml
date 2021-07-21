@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:focusable = "true"
+    android:focusableInTouchMode = "true">
+
+
+    <ImageView
+        android:id="@+id/shapeableImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/image_wrath_of_man"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedImageView"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:nextFocusUp="@id/card_view"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="200dp"
+            app:cardBackgroundColor="@color/cardview_gray"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="30dp"
+            app:layout_constraintBottom_toTopOf="@id/nav_view"
+            app:layout_constraintTop_toTopOf="@+id/shapeableImageView">
+
+            <TextView
+                android:id="@+id/text_view_genre"
+                android:layout_width="@dimen/sh_genre_oval_width"
+                android:layout_height="@dimen/sh_genre_oval_height"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/sh_genre_oval"
+                android:fontFamily="@font/font_roboto_regular"
+                android:gravity="center"
+                android:text="@string/label_film_genre"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_genre" />
+
+            <TextView
+                android:id="@+id/text_view_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="96dp"
+                android:layout_marginTop="35dp"
+                android:fontFamily="@font/font_roboto_regular"
+                android:gravity="center"
+                android:text="@string/release_data"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_data" />
+
+            <TextView
+                android:id="@+id/text_age_limit"
+                android:layout_width="@dimen/sh_age_limit_circle_width"
+                android:layout_height="@dimen/sh_age_limit_circle_height"
+                android:layout_gravity="end"
+                android:layout_marginTop="44dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/sh_age_limit_circle"
+                android:fontFamily="@font/font_roboto_regular"
+                android:gravity="center"
+                android:text="@string/_18"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/text_film_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="64dp"
+                android:fontFamily="@font/font_roboto_bold"
+                android:gravity="center"
+                android:text="@string/film_name"
+                android:textColor="@color/text_color"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="93dp">
+            </LinearLayout>
+            <RatingBar
+                android:id="@+id/list_ratingBar_indicator"
+                style="@style/ImageRatingBar"
+                android:layout_width="82dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="93dp"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1"/>
+
+            <TextView
+                android:id="@+id/text_film_description"
+                android:layout_width="332dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="128dp"
+                android:fontFamily="@font/font_roboto_regular"
+                android:text="@string/film_description"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/text_film_description2"
+                android:layout_width="332dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="300dp"
+                android:fontFamily="@font/font_roboto_bold"
+                android:text="@string/text_actors"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_actors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="332dp"
+                android:orientation="horizontal"
+                app:layoutManager="LinearLayoutManager" />
+        </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:itemBackground="@drawable/custom_selector"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_navigation_menu"
+        android:padding="0dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
