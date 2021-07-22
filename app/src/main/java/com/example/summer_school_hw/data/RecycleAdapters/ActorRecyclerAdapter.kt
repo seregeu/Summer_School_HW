@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.summer_school_hw.R
 import com.example.summer_school_hw.data.dto.ActorDto
 
@@ -30,8 +31,8 @@ class ActorRecyclerAdapter(private val actors: List<ActorDto>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val actor = actors[position]
+        holder._ImageView?.load(actor.avatarURL)
         holder._TextView?.text = actor.name
-        holder._ImageView?.setImageResource(actor.avatar)
     }
 
     override fun getItemCount() = actors.size
