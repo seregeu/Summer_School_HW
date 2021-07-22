@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.summer_school_hw.R
@@ -22,14 +20,14 @@ import com.example.summer_school_hw.data.presentation.GenresModel
 import com.example.summer_school_hw.data.presentation.MoviesModel
 
 
-class MainFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, GenreRecyclerAdapter.OnGenreClickListener {
+class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, GenreRecyclerAdapter.OnGenreClickListener {
     private lateinit var moviesModel: MoviesModel
     private lateinit var genresModel: GenresModel
     var movies: List<MovieDto> = emptyList()
     var genres: List<GenreDto> = emptyList()
     lateinit var recyclerViewMovies: RecyclerView
     val MovieAdapter: GridMovieResyclerAdapter = GridMovieResyclerAdapter(this)
-
+    private val BACK_STACK_ROOT_TAG = "root_fragment"
     private val CardMargin: Int
         get(){
             return when (resources.configuration.orientation){
@@ -39,10 +37,8 @@ class MainFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, Ge
         }
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = MovieListFragment()
     }
-
-    private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,25 +51,12 @@ class MainFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, Ge
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
-    fun newInstance(message: String): MovieDetailFragment {
-        val args = Bundle()
-        args.putString("MTS", message)
-        val fragment = MovieDetailFragment()
-        fragment.arguments = args
-        return fragment
-    }
-
-
     override fun onItemClick(position: Int, mode: Int) {
         when (mode) {
             1 -> {
-                newInstance(MovieAdapter.movies[position].title)
+                parentFragmentManager.beginTransaction().replace(
+                    R.id.fragment_container,
+                    MovieDetailsFragment.newInstance(MovieAdapter.movies[position])).addToBackStack(BACK_STACK_ROOT_TAG).commit()
             }
             2 -> {
                 //Toast.makeText(this, genres[position].genreName + " clicked", Toast.LENGTH_SHORT).show()
@@ -82,7 +65,7 @@ class MainFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, Ge
                     val newList = oldList.filter { it.genre.contains(genres[position])}
                     updateList(newList)
                 } catch (e: NumberFormatException) {
-                   // Toast.makeText(this, "There is no films in such genre :((", Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(this, "There is no films in such genre :((", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -105,7 +88,6 @@ class MainFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, Ge
             RecyclerView.VERTICAL, // orientation
             false // reverse layout
         ).apply {
-// specify the layout manager for recycler view
             recyclerViewMovies.layoutManager = this
         }
         recyclerViewMovies.adapter = MovieAdapter

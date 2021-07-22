@@ -25,7 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:nextFocusUp="@id/card_view"
-        app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -94,21 +93,15 @@
                 android:textColor="@color/text_color"
                 android:textSize="20sp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="93dp">
-            </LinearLayout>
             <RatingBar
-                android:id="@+id/list_ratingBar_indicator"
+                android:id="@+id/ratingBar_indicator"
                 style="@style/ImageRatingBar"
                 android:layout_width="82dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginTop="93dp"
                 android:layout_height="wrap_content"
                 android:numStars="5"
-                android:stepSize="1"/>
+                android:stepSize="1" />
 
             <TextView
                 android:id="@+id/text_film_description"
@@ -145,18 +138,4 @@
                 app:layoutManager="LinearLayoutManager" />
         </androidx.cardview.widget.CardView>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:itemBackground="@drawable/custom_selector"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_navigation_menu"
-        android:padding="0dp"
-        />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
