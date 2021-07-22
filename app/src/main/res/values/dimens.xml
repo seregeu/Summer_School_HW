@@ -8,7 +8,7 @@
     <dimen name="rb_movie_list_max_h">14dp</dimen>
     <dimen name="margin">10dp</dimen>
     <dimen name="movieCardWidth">150dp</dimen>
-    <dimen name="movieCardmarginHorizontalPortrait">32dp</dimen>
-    <dimen name="movieCardmarginHorizontalLandscape">128dp</dimen>
+    <dimen name="movieCardmarginHorizontalPortrait">24dp</dimen>
+    <dimen name="movieCardmarginHorizontalLandscape">114dp</dimen>
     <dimen name="movieCardmarginVervical">56dp</dimen>
 </resources>

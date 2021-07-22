@@ -32,6 +32,7 @@ class MovieDetailsFragment : Fragment(){
     private lateinit var actorsModel: ActorsModel
     var movies: List<MovieDto> = emptyList()
     var genres: List<GenreDto> = emptyList()
+    var actors: List<ActorDto> = emptyList()
     lateinit var recyclerViewActors: RecyclerView
 
     private var movieName: String? = null
@@ -100,17 +101,13 @@ class MovieDetailsFragment : Fragment(){
                     putInt("movieAgeLimit", movie.ageRestriction)
                     putString("movieGenreName", movie.genre[0].genreName)
                     putString("movieImageUrl", movie.imageUrl)
+                    actors=movie.actors
                 }
             }
     }
 
     private fun initRecyclerActors(view: View) {
         val recyclerViewActors: RecyclerView = view.findViewById(R.id.rv_actors)
-        val actors = listOf(
-            ActorDto(R.drawable.image_actor_jason_stateham,"Джейсон Стэйтем"),
-            ActorDto(R.drawable.image_actor_holt_mccallany,"Холт Маккэллани"),
-            ActorDto(R.drawable.image_actor_josh_hartnett,"Джош Харнетт")
-        )
         recyclerViewActors.adapter = ActorRecyclerAdapter(actors)
     }
 }
