@@ -59,13 +59,11 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
                     MovieDetailsFragment.newInstance(MovieAdapter.movies[position])).addToBackStack(BACK_STACK_ROOT_TAG).commit()
             }
             2 -> {
-                //Toast.makeText(this, genres[position].genreName + " clicked", Toast.LENGTH_SHORT).show()
                 try {
                     val oldList = moviesModel.getMovies()
                     val newList = oldList.filter { it.genre.contains(genres[position])}
                     updateList(newList)
                 } catch (e: NumberFormatException) {
-                    // Toast.makeText(this, "There is no films in such genre :((", Toast.LENGTH_SHORT).show()
                 }
             }
         }

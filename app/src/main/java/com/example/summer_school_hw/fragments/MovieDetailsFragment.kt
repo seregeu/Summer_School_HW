@@ -65,7 +65,8 @@ class MovieDetailsFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_movie_details, container, false)
+        val movieDetailView = inflater.inflate(R.layout.fragment_movie_details, container, false)
+        return movieDetailView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
