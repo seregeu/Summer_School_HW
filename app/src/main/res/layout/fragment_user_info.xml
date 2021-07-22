@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:layout_gravity="left">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/user_info_guideline_left"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/user_info_guideline_right"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="20dp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/user_info_card_view"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="6dp"
+            app:cardCornerRadius="40dp"
+            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="6dp">
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/user_info_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:src="@drawable/image_smile"/>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/user_info_name"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/font_roboto_bold"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:text="@string/Username_label"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/user_info_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/User_mail_label"
+            android:fontFamily="@font/font_roboto_regular"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toEndOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@+id/user_info_name" />
+
+        <TextView
+            android:id="@+id/user_info_title_interests"
+            android:fontFamily="@font/font_roboto_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:text="@string/interests_label"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toTopOf="@id/user_info_email" />
+
+        <HorizontalScrollView
+            android:id="@+id/user_info_genres"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="14sp"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_interests">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/sh_genre_oval_width"
+                    android:layout_height="@dimen/sh_genre_oval_height"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/sh_genre_oval"
+                    android:fontFamily="@font/font_roboto_regular"
+                    android:gravity="center"
+                    android:text="@string/shooters_genre_label"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/text_size_genre" />
+
+                <TextView
+                    android:layout_width="@dimen/sh_genre_oval_width"
+                    android:layout_height="@dimen/sh_genre_oval_height"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/sh_genre_oval"
+                    android:fontFamily="@font/font_roboto_regular"
+                    android:gravity="center"
+                    android:text="@string/Drama_genre_label"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/text_size_genre" />
+
+                <TextView
+                    android:layout_width="@dimen/sh_genre_oval_width"
+                    android:layout_height="@dimen/sh_genre_oval_height"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/sh_genre_oval"
+                    android:fontFamily="@font/font_roboto_regular"
+                    android:gravity="center"
+                    android:text="@string/comedy_genre_label"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/text_size_genre" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/user_info_title_personal_data"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/font_roboto_bold"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/personal_data_label"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_genres" />
+
+        <TextView
+            android:id="@+id/user_info_title_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_label"
+            android:textColor="@color/cardview_gray"
+            android:textSize="12sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_personal_data" />
+
+        <EditText
+            android:id="@+id/user_info_editable_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:fontFamily="@font/font_roboto_regular"
+            android:inputType="textPersonName"
+            android:text="@string/konstantin_label"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_name" />
+
+        <TextView
+            android:id="@+id/user_info_title_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password_label"
+            android:textColor="@color/cardview_gray"
+            android:textSize="12sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_editable_name" />
+
+        <EditText
+            android:id="@+id/user_info_editable_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:text="*************"
+            android:fontFamily="@font/font_roboto_regular"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_password" />
+
+        <TextView
+            android:id="@+id/user_info_title_email"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/font_roboto_regular"
+            android:layout_height="wrap_content"
+            android:text="@string/email_label"
+            android:textColor="@color/cardview_gray"
+            android:textSize="12sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_editable_password" />
+
+        <EditText
+            android:id="@+id/user_info_editable_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:fontFamily="@font/font_roboto_regular"
+            android:inputType="textEmailAddress"
+            android:text="konst.89@mail.com"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_email" />
+
+        <TextView
+            android:id="@+id/user_info_title_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_roboto_regular"
+            android:text="@string/phone_label"
+            android:textColor="@color/cardview_gray"
+            android:textSize="12sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_editable_email" />
+
+        <EditText
+            android:id="@+id/user_info_editable_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="phone"
+            android:fontFamily="@font/font_roboto_regular"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_phone" />
+
+        <TextView
+            android:id="@+id/user_info_title_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/font_roboto_regular"
+            android:text="@string/settings_label"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_editable_phone" />
+
+        <TextView
+            android:id="@+id/user_info_title_notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_roboto_regular"
+            android:layout_marginTop="40dp"
+            android:text="@string/notify_and_sound_label"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_settings" />
+
+        <ImageView
+            android:id="@+id/user_info_arrow_1"
+            android:layout_width="12dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/ic_settings_arrow"
+            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_settings" />
+
+        <TextView
+            android:id="@+id/user_info_title_privacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/font_roboto_regular"
+            android:text="@string/confident_label"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_notifications" />
+
+        <ImageView
+            android:id="@+id/user_info_arrow_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_settings_arrow"
+            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_1"/>
+
+        <TextView
+            android:id="@+id/user_info_title_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/font_roboto_regular"
+            android:text="@string/theme_label"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_privacy" />
+
+        <ImageView
+            android:id="@+id/user_info_arrow_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_settings_arrow"
+            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_1"/>
+
+        <TextView
+            android:id="@+id/user_info_title_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font_roboto_regular"
+            android:layout_marginTop="20dp"
+            android:text="@string/language_label"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_theme" />
+
+        <ImageView
+            android:id="@+id/user_info_arrow_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_settings_arrow"
+            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_3"/>
+
+        <TextView
+            android:id="@+id/user_info_title_data_storage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/font_roboto_regular"
+            android:text="@string/data_and_storage_label"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_language" />
+
+        <ImageView
+            android:id="@+id/user_info_arrow_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_settings_arrow"
+            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_4"/>
+
+        <TextView
+            android:id="@+id/user_info_title_annex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/font_roboto_regular"
+            android:text="@string/app_label"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_data_storage" />
+
+        <TextView
+            android:id="@+id/user_info_title_ask_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/ask_question_label"
+            android:fontFamily="@font/font_roboto_regular"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_annex" />
+
+        <ImageView
+            android:id="@+id/user_info_arrow_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_settings_arrow"
+            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_5"/>
+
+        <TextView
+            android:id="@+id/user_info_title_tell_about_problem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/font_roboto_regular"
+            android:text="@string/notify_about_problem_label"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_ask_question" />
+
+        <ImageView
+            android:id="@+id/user_info_arrow_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_settings_arrow"
+            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_6"/>
+
+        <Button
+            android:id="@+id/user_info_button_exit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="96dp"
+            android:backgroundTint="@color/cardview_gray"
+            android:text="@string/exit_label"
+            android:textColor="@color/black"
+            app:cornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/user_info_guideline_right"
+            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintTop_toBottomOf="@+id/user_info_title_tell_about_problem" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

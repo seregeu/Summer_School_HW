@@ -110,7 +110,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="128dp"
                 android:fontFamily="@font/font_roboto_regular"
-                android:text="@string/film_description"
                 android:textColor="@color/text_color"
                 android:textSize="14sp" />
 
