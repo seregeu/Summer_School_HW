@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="text_size_genre">10sp</dimen>
     <dimen name="text_size_data">12sp</dimen>
     <dimen name="sh_age_limit_circle_width">44dp</dimen>
@@ -11,4 +11,6 @@
     <dimen name="movieCardmarginHorizontalPortrait">24dp</dimen>
     <dimen name="movieCardmarginHorizontalLandscape">114dp</dimen>
     <dimen name="movieCardmarginVervical">56dp</dimen>
+    <dimen name="design_bottom_navigation_item_max_width" tools:override="true">600dp</dimen>
+    <dimen name="design_bottom_navigation_active_item_max_width" tools:override="true">600dp</dimen>
 </resources>
