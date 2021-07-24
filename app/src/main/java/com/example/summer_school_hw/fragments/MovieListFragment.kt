@@ -2,12 +2,14 @@ package com.example.summer_school_hw.ui.main
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.summer_school_hw.R
 import com.example.summer_school_hw.data.RecycleAdapters.GenreRecyclerAdapter
 import com.example.summer_school_hw.data.RecycleAdapters.GridMovieResyclerAdapter
@@ -28,6 +30,9 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     lateinit var recyclerViewMovies: RecyclerView
     val MovieAdapter: GridMovieResyclerAdapter = GridMovieResyclerAdapter(this)
     private val BACK_STACK_ROOT_TAG = "root_fragment"
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var runnable: Runnable
+    private lateinit var handler: Handler
     private val CardMargin: Int
         get(){
             return when (resources.configuration.orientation){
@@ -35,7 +40,6 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
                 else->getResources().getDimension(R.dimen.movieCardmarginHorizontalLandscape).toInt()
             }
         }
-
     companion object {
         fun newInstance() = MovieListFragment()
     }
@@ -46,8 +50,10 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     ): View {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
         initDataSource()
-        initRecyclerViewGenres(view);
-        initRecyclerMovies(view);
+        initRecyclerViewGenres(view)
+        initRecyclerMovies(view)
+        initSwipeRefreshContainer(view)
+
         return view
     }
 
@@ -69,6 +75,36 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         }
     }
 
+    private fun initSwipeRefreshContainer(view: View){
+        handler = Handler()
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout.setOnRefreshListener {
+            addNewMoviesAsync()
+        }
+
+        swipeRefreshLayout.setOnRefreshListener {
+            // Initialize a new Runnable
+            runnable = Runnable {
+                // Update the text view text with a random number
+                addNewMoviesAsync()
+                // Hide swipe to refresh icon animation
+                swipeRefreshLayout.isRefreshing = false
+            }
+            handler.postDelayed(
+                runnable, 3000.toLong()
+            )
+        }
+
+        swipeRefreshLayout.setColorSchemeResources(
+            android.R.color.darker_gray,
+            android.R.color.holo_red_light);
+    }
+
+    fun addNewMoviesAsync() {
+        val oldList = moviesModel.getMovies()
+        val newList = oldList.filter { it.genre.contains(genres[0])}
+        updateList(newList)
+    }
 
     private fun initRecyclerViewGenres(view: View) {
         val recyclerViewGenres: RecyclerView = view.findViewById(R.id.rv_genres)

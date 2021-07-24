@@ -23,7 +23,7 @@ class GridMovieResyclerAdapter(private val listener: OnItemFilmListener): Recycl
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflate the custom view from xml layout file
         val view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.movie_lits_item, parent, false)
+            .inflate(R.layout.movie_list_item, parent, false)
         // return the view holder
         return ViewHolder(view)
     }
