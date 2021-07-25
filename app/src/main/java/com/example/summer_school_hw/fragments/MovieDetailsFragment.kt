@@ -101,7 +101,7 @@ class MovieDetailsFragment : Fragment(){
                     putInt("movieStarNumber", movie.rateScore)
                     putInt("movieAgeLimit", movie.ageRestriction)
                     putString("movieGenreName", movie.genre[0].genreName)
-                    putString("movieImageUrl", movie.imageUrl)
+                    putString("movieImageUrl", movie.posterUrl)
                     actors=movie.actors
                 }
             }

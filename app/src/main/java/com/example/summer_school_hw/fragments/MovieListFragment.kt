@@ -20,6 +20,7 @@ import com.example.summer_school_hw.data.features.genres.GenresDataSourceImpl
 import com.example.summer_school_hw.data.features.movies.MoviesDataSourceImpl
 import com.example.summer_school_hw.data.presentation.GenresModel
 import com.example.summer_school_hw.data.presentation.MoviesModel
+import kotlinx.coroutines.*
 
 
 class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, GenreRecyclerAdapter.OnGenreClickListener {
@@ -78,32 +79,32 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     private fun initSwipeRefreshContainer(view: View){
         handler = Handler()
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
-        swipeRefreshLayout.setOnRefreshListener {
-            addNewMoviesAsync()
-        }
 
         swipeRefreshLayout.setOnRefreshListener {
-            // Initialize a new Runnable
-            runnable = Runnable {
-                // Update the text view text with a random number
-                addNewMoviesAsync()
-                // Hide swipe to refresh icon animation
-                swipeRefreshLayout.isRefreshing = false
-            }
-            handler.postDelayed(
-                runnable, 3000.toLong()
-            )
+           updateMoviesList()
         }
-
         swipeRefreshLayout.setColorSchemeResources(
             android.R.color.darker_gray,
             android.R.color.holo_red_light);
     }
 
-    fun addNewMoviesAsync() {
-        val oldList = moviesModel.getMovies()
-        val newList = oldList.filter { it.genre.contains(genres[0])}
-        updateList(newList)
+    fun updateMoviesList() { // this: CoroutineScope
+        GlobalScope.launch {
+            var movieList = moviesModel.getMovies()+addNewMoviesAsync()
+            swipeRefreshLayout.isRefreshing = false
+            MainScope().launch {
+                updateList(movieList)
+            }
+        }
+    }
+
+    suspend fun addNewMoviesAsync() = coroutineScope {
+        var newList: List<MovieDto> = emptyList()
+        runBlocking {
+            delay(3000L)
+            newList = moviesModel.downloadMovies()
+        }
+        return@coroutineScope newList
     }
 
     private fun initRecyclerViewGenres(view: View) {

@@ -23,4 +23,5 @@
         <item name="android:minHeight">@dimen/rb_movie_list_min_h</item>
         <item name="android:maxHeight">@dimen/rb_movie_list_max_h</item>
     </style>
+
 </resources>

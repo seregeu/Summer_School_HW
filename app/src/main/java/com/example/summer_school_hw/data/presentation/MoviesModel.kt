@@ -7,4 +7,6 @@ class MoviesModel(
 ) {
 
     fun getMovies() = moviesDataSource.getMovies()
+
+    fun downloadMovies()=moviesDataSource.downloadMovies()
 }
