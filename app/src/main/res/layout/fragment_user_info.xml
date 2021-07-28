@@ -240,11 +240,11 @@
 
         <ImageView
             android:id="@+id/user_info_arrow_1"
-            android:layout_width="12dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="45dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_settings" />
 
         <TextView
@@ -266,7 +266,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_arrow_1"/>
 
         <TextView
@@ -288,8 +288,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_1"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_1" />
 
         <TextView
             android:id="@+id/user_info_title_language"
@@ -310,8 +310,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_3"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_3" />
 
         <TextView
             android:id="@+id/user_info_title_data_storage"
@@ -332,8 +332,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_4"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_4" />
 
         <TextView
             android:id="@+id/user_info_title_annex"
@@ -367,8 +367,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_5"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_5" />
 
         <TextView
             android:id="@+id/user_info_title_tell_about_problem"
@@ -389,9 +389,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_6"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_annex" />
 
+        <ImageView
+            android:id="@+id/user_info_arrow_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_settings_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_7" />
         <Button
             android:id="@+id/user_info_button_exit"
             android:layout_width="0dp"

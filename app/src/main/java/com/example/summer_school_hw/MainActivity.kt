@@ -9,14 +9,18 @@ import com.example.summer_school_hw.ui.main.MovieListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-
+    val MAIN_FRAGMENT_TAG = "main_fragment"
+    lateinit var mainFragment:MovieListFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
+            mainFragment = MovieListFragment.newInstance()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, MovieListFragment.newInstance())
+                .replace(R.id.fragment_container, mainFragment, MAIN_FRAGMENT_TAG)
                 .commitNow()
+        }else{
+            mainFragment = (supportFragmentManager.findFragmentByTag(MAIN_FRAGMENT_TAG) as? MovieListFragment)!!
         }
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener {
@@ -36,6 +40,8 @@ class MainActivity : AppCompatActivity() {
             } != null
         }
     }
+
+
 
 
 

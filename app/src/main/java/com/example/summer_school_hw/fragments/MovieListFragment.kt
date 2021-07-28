@@ -3,6 +3,7 @@ package com.example.summer_school_hw.ui.main
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,9 @@ import com.example.summer_school_hw.data.features.movies.MoviesDataSourceImpl
 import com.example.summer_school_hw.data.presentation.GenresModel
 import com.example.summer_school_hw.data.presentation.MoviesModel
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import java.lang.Exception
 
 
 class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, GenreRecyclerAdapter.OnGenreClickListener {
@@ -32,8 +36,8 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     val MovieAdapter: GridMovieResyclerAdapter = GridMovieResyclerAdapter(this)
     private val BACK_STACK_ROOT_TAG = "root_fragment"
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var runnable: Runnable
-    private lateinit var handler: Handler
+    val coroutine_handler = CoroutineExceptionHandler { _, exception -> Log.i("Coroutine","Exception") }
+
     private val CardMargin: Int
         get(){
             return when (resources.configuration.orientation){
@@ -44,7 +48,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     companion object {
         fun newInstance() = MovieListFragment()
     }
-
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,7 +81,6 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     }
 
     private fun initSwipeRefreshContainer(view: View){
-        handler = Handler()
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
 
         swipeRefreshLayout.setOnRefreshListener {
@@ -88,9 +91,9 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
             android.R.color.holo_red_light);
     }
 
-    fun updateMoviesList() { // this: CoroutineScope
-        GlobalScope.launch {
-            var movieList = moviesModel.getMovies()+addNewMoviesAsync()
+    fun updateMoviesList() {
+        GlobalScope.launch(coroutine_handler) {
+            val movieList = addNewMoviesSuspending()+moviesModel.getMovies()
             swipeRefreshLayout.isRefreshing = false
             MainScope().launch {
                 updateList(movieList)
@@ -98,12 +101,11 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         }
     }
 
-    suspend fun addNewMoviesAsync() = coroutineScope {
+    suspend fun addNewMoviesSuspending() = coroutineScope {
+       // throw Exception()
         var newList: List<MovieDto> = emptyList()
-        runBlocking {
-            delay(3000L)
-            newList = moviesModel.downloadMovies()
-        }
+        delay(3000L)
+        newList = moviesModel.downloadMovies()
         return@coroutineScope newList
     }
 
@@ -140,6 +142,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
 
     fun updateList(list: List<MovieDto>) {
         MovieAdapter.movies = list
+        recyclerViewMovies.scrollToPosition(0)
     }
 
 }
