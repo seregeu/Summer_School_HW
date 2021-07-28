@@ -64,12 +64,12 @@ class GridMovieResyclerAdapter(private val listener: OnItemFilmListener): Recycl
         override fun onClick(v: View?) {
             val posititon: Int = adapterPosition
             if (posititon!=RecyclerView.NO_POSITION) {
-                listener.onItemClick(posititon,1)
+                listener.onMovieClick(posititon)
             }
         }
     }
     interface OnItemFilmListener{
-        fun onItemClick(position: Int,mode:Int)
+        fun onMovieClick(position: Int)
     }
 
     // this two methods useful for avoiding duplicate item

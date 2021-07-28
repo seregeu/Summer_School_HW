@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         }else{
             mainFragment = (supportFragmentManager.findFragmentByTag(MAIN_FRAGMENT_TAG) as? MovieListFragment)!!
         }
+
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -40,8 +41,6 @@ class MainActivity : AppCompatActivity() {
             } != null
         }
     }
-
-
 
 
 

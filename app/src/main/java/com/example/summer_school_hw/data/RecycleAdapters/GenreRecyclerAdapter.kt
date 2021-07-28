@@ -9,7 +9,7 @@ import com.example.summer_school_hw.R
 import com.example.summer_school_hw.data.dto.GenreDto
 
 class GenreRecyclerAdapter(private val genres: List<GenreDto>,
-                           private val listener: GridMovieResyclerAdapter.OnItemFilmListener
+                           private val listener: GenreRecyclerAdapter.OnGenreClickListener
 ) :
     RecyclerView.Adapter<GenreRecyclerAdapter.MyViewHolder>() {
 
@@ -23,12 +23,12 @@ class GenreRecyclerAdapter(private val genres: List<GenreDto>,
        override fun onClick(v: View?) {
            val posititon: Int = adapterPosition
            if (posititon!=RecyclerView.NO_POSITION) {
-               listener.onItemClick(posititon, 2)
+               listener.onGenreClick(posititon)
            }
        }
    }
     interface OnGenreClickListener{
-        fun onItemClick(position: Int, mode: Int)
+        fun onGenreClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

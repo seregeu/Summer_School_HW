@@ -61,22 +61,17 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
 
         return view
     }
-
-    override fun onItemClick(position: Int, mode: Int) {
-        when (mode) {
-            1 -> {
-                parentFragmentManager.beginTransaction().replace(
-                    R.id.fragment_container,
-                    MovieDetailsFragment.newInstance(MovieAdapter.movies[position])).addToBackStack(BACK_STACK_ROOT_TAG).commit()
-            }
-            2 -> {
-                try {
-                    val oldList = moviesModel.getMovies()
-                    val newList = oldList.filter { it.genre.contains(genres[position])}
-                    updateList(newList)
-                } catch (e: NumberFormatException) {
-                }
-            }
+    override fun onMovieClick(position: Int){
+        parentFragmentManager.beginTransaction().replace(
+        R.id.fragment_container,
+        MovieDetailsFragment.newInstance(MovieAdapter.movies[position])).addToBackStack(BACK_STACK_ROOT_TAG).commit()
+    }
+    override fun onGenreClick(position: Int) {
+        try {
+            val oldList = movies
+            val new_list = oldList.filter { it.genre.contains(genres[position]) }
+            updateList(new_list)
+        } catch (e: NumberFormatException) {
         }
     }
 
@@ -92,17 +87,16 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     }
 
     fun updateMoviesList() {
-        GlobalScope.launch(coroutine_handler) {
-            val movieList = addNewMoviesSuspending()+moviesModel.getMovies()
+        CoroutineScope(Dispatchers.Main).launch(coroutine_handler) {
+            movies = addNewMoviesSuspending()+moviesModel.getMovies()
             swipeRefreshLayout.isRefreshing = false
             MainScope().launch {
-                updateList(movieList)
+                updateList(movies)
             }
         }
     }
 
     suspend fun addNewMoviesSuspending() = coroutineScope {
-       // throw Exception()
         var newList: List<MovieDto> = emptyList()
         delay(3000L)
         newList = moviesModel.downloadMovies()
