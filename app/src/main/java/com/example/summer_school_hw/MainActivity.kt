@@ -10,7 +10,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeListener,
     MovieListFragment.OnMovieListUpdateListener, MovieListFragment.OnMovieitemTapedListener{
-    val MAIN_FRAGMENT_TAG = "main_fragment"
+    val MAIN_FRAGMENT_TAG = "MainFragment"
+    val BACK_STACK_ROOT_TAG = "RootFragment"
+
+    //for preserving the state of a fragment upon destruction
     var genreSave: Int = -1
     var moviePosition: Int = -1
     var isListUpdated: Boolean=false
@@ -56,7 +59,6 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
                         .commit()
                 }
                 R.id.nav_profile -> {
-                    val BACK_STACK_ROOT_TAG = "root_fragment"
                     supportFragmentManager.beginTransaction().replace(
                         R.id.fragment_container,
                         UserInfoFragment.newInstance()).addToBackStack(BACK_STACK_ROOT_TAG).commit()
@@ -80,12 +82,6 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
     override fun onBackPressed() {
         moviePosition=-1;
         super.onBackPressed()
-    }
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        genreSave = savedInstanceState.getInt(MOVIE_ARGUMENT)
-        isListUpdated = savedInstanceState.getBoolean(MOVIE_LIST_UPDATED)
-        moviePosition = savedInstanceState.getInt(MOVIE_SELECTED)
     }
 
     override fun OnMovieListUpdated() {
