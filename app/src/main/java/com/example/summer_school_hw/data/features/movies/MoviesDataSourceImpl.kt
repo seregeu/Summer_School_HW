@@ -148,8 +148,8 @@ class MoviesDataSourceImpl : MoviesDataSource {
 			posterUrl="https://www.themoviedb.org/t/p/original/4e3hHuXbg1Gh9xuz045bRoImArR.jpg",
 			genre = listOf(GenreDto("Приключения", 12)),
 			actors = listOf(ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/nWM4bvQk5Pq74uu3r2wLawOHMJr.jpg", "Тихон Жизневский"),
-				ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/75PvULemW8BvheSKtPMoBBsvPLh.jpg","Любовь Аксёнова"),
-				ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/x87wtRVVvsOG7hkfJlzNkkfXQCN.jpg","Алексей Маклаков"))
+				ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/yOQX4JPwX1uhMyVT1jJigAk7iUr.jpg","Любовь Аксёнова"),
+				ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/u1i5aLdon5fHggZVcIL1VkytqBN.jpg","Алексей Маклаков"))
 		),
 		MovieDto(
 			title = "Годзилла против Конга",
@@ -179,6 +179,130 @@ class MoviesDataSourceImpl : MoviesDataSource {
 			actors = listOf(ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/mLq5C8100kjFad6AMLNUXX3kcPf.jpg", "Брайан Халл"),
 				ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wpYWJ7Kw5qcXEOZyTuIEsfqMqXq.jpg","Дженнифер Клуска"),
 				ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1ZdPd2JaiigVDB7hPxy29RAx9GY.jpg","Дерек Драймон"))
+		),
+		MovieDto(
+			title = "Судная ночь навсегда",
+			description = "Этим летом все правила будут нарушены. Группа мародеров решает, что ежегодная Судная ночь не должна заканчиваться с наступлением утра," +
+					" а может продолжаться бесконечно. Никто больше не будет в безопасности.",
+			rateScore = 4,
+			ageRestriction = 18,
+			imageUrl = "https://www.themoviedb.org/t/p/original/zEKa7Gfrr94V76w1A83khcML4Df.jpg",
+			posterUrl = "https://www.themoviedb.org/t/p/original/kGUcCqsENSDI1oU3wU3bVVVf8v7.jpg",
+			genre = listOf(GenreDto("Боевик", 28),
+				GenreDto("Триллер", 53),),
+			actors = listOf(
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/aHYyysVwQ7D0iYLjlUgiknBQGwW.jpg",
+					"Джош Лукас",
+				),
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/nVhTkLBwZu4zOzYbnW9mtmHQfyg.jpg",
+					"Анна де Лагуэра",
+				),
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/5qoAmQpcPCjf4Pd6aTZOeINGYzk.jpg",
+					"Тенорч Хуерта",
+				)
+			)
+		),
+		MovieDto(
+			title = "Война будущего",
+			description = "В будущем идёт разрушительный конфликт с инопланетной расой. В попытке переломить ход войны учёные начинают призывать в свою армию солдат из прошлого.",
+			rateScore = 5,
+			ageRestriction = 12,
+			imageUrl = "https://www.themoviedb.org/t/p/original/jdzuxuA05lW4DzedZqa43SYhaZ.jpg",
+			posterUrl = "https://www.themoviedb.org/t/p/original/ceiwpwT6bxuAKtK6suPUDbuWEHK.jpg",
+			genre = listOf(GenreDto("Фантастика", 14),
+				GenreDto("Боевик", 28)),
+			actors = listOf(
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/gXKyT1YU5RWWPaE1je3ht58eUZr.jpg",
+					"Крис Пратт",
+				),
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wio1VaQDOggDfPOTJf2vxGfooxZ.jpg",
+					"Ивонна Старковски",
+				),
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/7kIiPojgSVNRXb5z0hiijcD5LJ6.jpg",
+					"Джордж Симмонс",
+				)
+			)
+		),
+		MovieDto(
+			title = "Тихое место 2",
+			description = "474 дня прошло после нападения на Землю охотящихся на звук существ, семья Эбботт продолжает бороться за жизнь в полной тишине." +
+					" Столкнувшись со смертельной угрозой в собственном доме, они вынуждены отправиться во внешний мир, где находят убежище и старого знакомого семьи.",
+			rateScore = 3,
+			ageRestriction = 16,
+			imageUrl = "https://www.themoviedb.org/t/p/original/sdOTD3C9h4Etl6rYrtYLAJOuUWN.jpg",
+			posterUrl = "https://www.themoviedb.org/t/p/original/uX4SrYuSaJAYsnFDZExyzjp4pZo.jpg",
+			genre = listOf(GenreDto("Триллер", 53),),
+			actors = listOf(
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/nPJXaRMvu1vh3COG16GzmdsBySQ.jpg",
+					"Эмили Блант",
+				),
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/i8dOTC0w6V274ev5iAAvo4Ahhpr.jpg",
+					"Киллиан Мёрфи",
+				),
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vn7hejb0IRFvSrZxpxqY9RbBxMe.jpg",
+					"Милисенд Симонс",
+				)
+			)
+		),
+		MovieDto(
+			title = "Довод",
+			description = "После теракта в киевском оперном театре агент ЦРУ объединяется с британской разведкой, " +
+					"чтобы противостоять русскому олигарху, который сколотил состояние на торговле оружием. ",
+			rateScore = 4,
+			ageRestriction = 16,
+			imageUrl = "https://www.themoviedb.org/t/p/original/m96dj44zZJ8TxpaMZDJv63TldZh.jpg",
+			posterUrl = "https://www.themoviedb.org/t/p/original/epoids15egPuq933RvT0Y34L478.jpg",
+			genre = listOf(GenreDto("Фантастика", 14),
+				GenreDto("Боевик", 28),
+				GenreDto("Триллер", 53),),
+			actors = listOf(
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/eWNCcG4DqqhFKtWP56Ds8MiKPXB.jpg",
+					"Джон Вашингтон",
+				),
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8A4PS5iG7GWEAVFftyqMZKl3qcr.jpg",
+					"Роберт Паттинсон",
+				),
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/sJxj44aKdY0pjSIgnxBgMWLrQmw.jpg",
+					"Элизабет Дебики",
+				)
+			)
+		),
+		MovieDto(
+			title = "Кролик Питер 2",
+			description = "Продолжение истории маленького и непоседливого кролика по имени Питер." +
+					" Беатрис, Томас и крольчата, наконец, находят общий язык и начинают спокойную и размеренную жизнь за городом.",
+			rateScore = 4,
+			ageRestriction = 0,
+			imageUrl = "https://www.themoviedb.org/t/p/original/gGQEXTCU5IawU6929RGBHXRWXjZ.jpg",
+			posterUrl = "https://www.themoviedb.org/t/p/original/tIJQQPCDUzTzBh1ltiIJeKotYAR.jpg",
+			genre = listOf(GenreDto("Семейный", 10751),
+				GenreDto("Приключения", 12),),
+			actors = listOf(
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/xGB0gfZ48M27gQjjL7inJIh1Pqj.jpg",
+					"Джеймс Корден",
+				),
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/4oQWCLK7gd6RNKF0WJipJo7TyFP.jpg",
+					"Рози Бёрн",
+				),
+				ActorDto(
+					"https://www.themoviedb.org/t/p/w600_and_h900_bestv2/uDbwncuKlqL0fAuucXSvgakJDrc.jpg",
+					"Домлан Глисон"
+				)
+			)
 		),
 	)
 }

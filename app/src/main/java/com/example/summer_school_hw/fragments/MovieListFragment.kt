@@ -25,6 +25,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import java.lang.Exception
+import kotlin.properties.Delegates
 
 
 class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, GenreRecyclerAdapter.OnGenreClickListener {
@@ -33,8 +34,14 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     var movies: List<MovieDto> = emptyList()
     var genres: List<GenreDto> = emptyList()
     lateinit var recyclerViewMovies: RecyclerView
+    lateinit private var movieListListener:OnMovieLisChangeListener
+    lateinit private var movieUpdateListener:OnMovieListUpdateListener
+    lateinit private var movieTapedListener:OnMovieitemTapedListener
     val MovieAdapter: GridMovieResyclerAdapter = GridMovieResyclerAdapter(this)
-    private val BACK_STACK_ROOT_TAG = "root_fragment"
+    var initGenre:Int = -1
+    var moviePosition:Int = -1
+    var isListUpdated: Boolean=false
+    private val BACK_STACK_ROOT_TAG = "movie_details_fragment"
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     val coroutine_handler = CoroutineExceptionHandler { _, exception -> Log.i("Coroutine","Exception") }
 
@@ -46,7 +53,18 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
             }
         }
     companion object {
-        fun newInstance() = MovieListFragment()
+        fun newInstance(genreChangeListener:OnMovieLisChangeListener,
+                        movieListUpdatedListener: OnMovieListUpdateListener,
+                        _movieTapedListener:OnMovieitemTapedListener,
+                        _initGenre:Int, _isListUpdated:Boolean,_moviePosition: Int) =
+            MovieListFragment().apply{
+                movieListListener = genreChangeListener
+                movieUpdateListener = movieListUpdatedListener
+                movieTapedListener = _movieTapedListener
+                initGenre = _initGenre
+                isListUpdated = _isListUpdated
+                moviePosition = _moviePosition
+        }
     }
     
     override fun onCreateView(
@@ -58,19 +76,23 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         initRecyclerViewGenres(view)
         initRecyclerMovies(view)
         initSwipeRefreshContainer(view)
-
+        restoreConfiguration()
         return view
     }
+
     override fun onMovieClick(position: Int){
+        movieTapedListener.OnMovieSelected(position)
         parentFragmentManager.beginTransaction().replace(
         R.id.fragment_container,
         MovieDetailsFragment.newInstance(MovieAdapter.movies[position])).addToBackStack(BACK_STACK_ROOT_TAG).commit()
     }
+
     override fun onGenreClick(position: Int) {
         try {
             val oldList = movies
             val new_list = oldList.filter { it.genre.contains(genres[position]) }
             updateList(new_list)
+            movieListListener.onMovieListChanged(position)
         } catch (e: NumberFormatException) {
         }
     }
@@ -86,6 +108,16 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
             android.R.color.holo_red_light);
     }
 
+    private fun restoreConfiguration(){
+        if (moviePosition!=-1){
+            parentFragmentManager.beginTransaction().replace(
+                R.id.fragment_container,
+                MovieDetailsFragment.newInstance(MovieAdapter.movies[moviePosition])).addToBackStack(BACK_STACK_ROOT_TAG).commit()
+            moviePosition=-1
+            movieTapedListener.OnMovieSelected(moviePosition)
+        }
+    }
+
     fun updateMoviesList() {
         CoroutineScope(Dispatchers.Main).launch(coroutine_handler) {
             movies = addNewMoviesSuspending()+moviesModel.getMovies()
@@ -93,7 +125,9 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
             MainScope().launch {
                 updateList(movies)
             }
+            movieListListener.onMovieListChanged(-1)
         }
+        movieUpdateListener.OnMovieListUpdated()
     }
 
     suspend fun addNewMoviesSuspending() = coroutineScope {
@@ -111,6 +145,16 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
 
     private fun initRecyclerMovies(view: View) {
         movies = moviesModel.getMovies()
+        if (isListUpdated==true){
+            movies=moviesModel.downloadMovies()+movies
+        }
+        var _movies = movies
+        if(initGenre!=-1){
+            try {
+                _movies = movies.filter{ it.genre.contains(genres[initGenre]) }
+            } catch (e: NumberFormatException) {
+            }
+        }
         recyclerViewMovies = view.findViewById(R.id.rv_movies_list)
         // initialize grid layout manager
         GridLayoutManager(
@@ -122,11 +166,23 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
             recyclerViewMovies.layoutManager = this
         }
         recyclerViewMovies.adapter = MovieAdapter
-        updateList(movies)
+        updateList(_movies)
         recyclerViewMovies.addItemDecoration(
             SpacesItemDecoration(getResources().getDimension(R.dimen.movieCardmarginVervical).toInt(),
                 CardMargin)
         )
+    }
+
+    interface OnMovieLisChangeListener{
+        fun onMovieListChanged(genrePosition: Int)
+    }
+
+    interface OnMovieListUpdateListener{
+        fun OnMovieListUpdated()
+    }
+
+    interface OnMovieitemTapedListener{
+        fun OnMovieSelected(moviePosition: Int)
     }
 
     private fun initDataSource() {
