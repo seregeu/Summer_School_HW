@@ -1,6 +1,5 @@
 package com.example.summer_school_hw.ui.main
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,23 +8,14 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.summer_school_hw.R
-import com.example.summer_school_hw.data.RecycleAdapters.ActorRecyclerAdapter
-import com.example.summer_school_hw.data.RecycleAdapters.GenreRecyclerAdapter
-import com.example.summer_school_hw.data.RecycleAdapters.GridMovieResyclerAdapter
-import com.example.summer_school_hw.data.RecycleAdapters.SpacesItemDecoration
-import com.example.summer_school_hw.data.dto.ActorDto
-import com.example.summer_school_hw.data.dto.GenreDto
-import com.example.summer_school_hw.data.dto.MovieDto
-import com.example.summer_school_hw.data.features.genres.GenresDataSourceImpl
-import com.example.summer_school_hw.data.presentation.ActorsModel
-import com.example.summer_school_hw.data.presentation.GenresModel
-import com.example.summer_school_hw.data.presentation.MoviesModel
+import com.example.summer_school_hw.model.data.RecycleAdapters.ActorRecyclerAdapter
+import com.example.summer_school_hw.model.data.dto.ActorDto
+import com.example.summer_school_hw.model.data.dto.GenreDto
+import com.example.summer_school_hw.model.data.dto.MovieDto
+import com.example.summer_school_hw.model.data.presentation.ActorsModel
 
 
 class MovieDetailsFragment : Fragment(){

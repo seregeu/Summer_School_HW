@@ -1,9 +1,9 @@
-package com.example.summer_school_hw.data.features.movies
+package com.example.summer_school_hw.model.data.features.movies
 
-import com.example.summer_school_hw.data.dto.ActorDto
-import com.example.summer_school_hw.data.dto.GenreDto
-import com.example.summer_school_hw.data.dto.MovieDto
-import com.example.summer_school_hw.data.dto.features.movies.MoviesDataSource
+import com.example.summer_school_hw.model.data.dto.ActorDto
+import com.example.summer_school_hw.model.data.dto.GenreDto
+import com.example.summer_school_hw.model.data.dto.MovieDto
+import com.example.summer_school_hw.model.data.dto.features.movies.MoviesDataSource
 
 class MoviesDataSourceImpl : MoviesDataSource {
 	override fun getMovies() = listOf(

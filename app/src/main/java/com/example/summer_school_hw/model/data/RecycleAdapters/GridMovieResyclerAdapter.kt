@@ -1,4 +1,4 @@
-package com.example.summer_school_hw.data.RecycleAdapters
+package com.example.summer_school_hw.model.data.RecycleAdapters
 
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +10,7 @@ import android.widget.TextView
 import coil.load
 import com.example.summer_school_hw.R
 import com.example.summer_school_hw.autoNotify
-import com.example.summer_school_hw.data.dto.MovieDto
+import com.example.summer_school_hw.model.data.dto.MovieDto
 import com.google.android.material.imageview.ShapeableImageView
 import kotlin.properties.Delegates
 

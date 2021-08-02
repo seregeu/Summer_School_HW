@@ -1,4 +1,4 @@
-package com.example.summer_school_hw.data.RecycleAdapters
+package com.example.summer_school_hw.model.data.RecycleAdapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.summer_school_hw.R
-import com.example.summer_school_hw.data.dto.GenreDto
+import com.example.summer_school_hw.model.data.dto.GenreDto
 
 class GenreRecyclerAdapter(private val genres: List<GenreDto>,
                            private val listener: GenreRecyclerAdapter.OnGenreClickListener

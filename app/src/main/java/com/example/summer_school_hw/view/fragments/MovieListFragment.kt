@@ -11,15 +11,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.summer_school_hw.R
-import com.example.summer_school_hw.data.RecycleAdapters.GenreRecyclerAdapter
-import com.example.summer_school_hw.data.RecycleAdapters.GridMovieResyclerAdapter
-import com.example.summer_school_hw.data.RecycleAdapters.SpacesItemDecoration
-import com.example.summer_school_hw.data.dto.GenreDto
-import com.example.summer_school_hw.data.dto.MovieDto
-import com.example.summer_school_hw.data.features.genres.GenresDataSourceImpl
-import com.example.summer_school_hw.data.features.movies.MoviesDataSourceImpl
-import com.example.summer_school_hw.data.presentation.GenresModel
-import com.example.summer_school_hw.data.presentation.MoviesModel
+import com.example.summer_school_hw.model.data.RecycleAdapters.GenreRecyclerAdapter
+import com.example.summer_school_hw.model.data.RecycleAdapters.GridMovieResyclerAdapter
+import com.example.summer_school_hw.model.data.RecycleAdapters.SpacesItemDecoration
+import com.example.summer_school_hw.model.data.dto.GenreDto
+import com.example.summer_school_hw.model.data.dto.MovieDto
+import com.example.summer_school_hw.model.data.features.genres.GenresDataSourceImpl
+import com.example.summer_school_hw.model.data.features.movies.MoviesDataSourceImpl
+import com.example.summer_school_hw.model.data.presentation.GenresModel
+import com.example.summer_school_hw.model.data.presentation.MoviesModel
 import kotlinx.coroutines.*
 
 
@@ -39,6 +39,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     private val BACK_STACK_ROOT_TAG = "movie_details_fragment"
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val coroutineHandler = CoroutineExceptionHandler { _, exception -> Log.i("Coroutine","Exception") }
+
 
     private val CardMargin: Int
         get(){

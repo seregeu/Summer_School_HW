@@ -1,4 +1,4 @@
-package com.example.summer_school_hw.fragments
+package com.example.summer_school_hw.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

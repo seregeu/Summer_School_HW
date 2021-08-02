@@ -1,8 +1,6 @@
-package com.example.summer_school_hw.data.features.genres
+package com.example.summer_school_hw.model.data.features.genres
 
-import com.example.summer_school_hw.R
-import com.example.summer_school_hw.data.dto.ActorDto
-import com.example.summer_school_hw.data.dto.GenreDto
+import com.example.summer_school_hw.model.data.dto.GenreDto
 
 class GenresDataSourceImpl:GenresDataSouce {
     override fun getGenres()=listOf(

@@ -2,7 +2,7 @@ package com.example.summer_school_hw
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.summer_school_hw.data.dto.MovieDto
+import com.example.summer_school_hw.model.data.dto.MovieDto
 
 fun <T> RecyclerView.Adapter<*>.autoNotify(oldList: List<MovieDto>, newList: List<T>, compare: (T, T) -> Boolean) {
 

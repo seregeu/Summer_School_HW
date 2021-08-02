@@ -1,8 +1,7 @@
-package com.example.summer_school_hw.data.RecycleAdapters
+package com.example.summer_school_hw.model.data.RecycleAdapters
 
 import android.graphics.Rect
 import android.view.View
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class SpacesItemDecoration(

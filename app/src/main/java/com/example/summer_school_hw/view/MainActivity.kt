@@ -1,10 +1,11 @@
-package com.example.summer_school_hw
+package com.example.summer_school_hw.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.example.summer_school_hw.fragments.UserInfoFragment
+import com.example.summer_school_hw.R
+import com.example.summer_school_hw.view.fragments.UserInfoFragment
 import com.example.summer_school_hw.ui.main.MovieListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -53,7 +54,8 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
             when (it.itemId) {
                 R.id.nav_home -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, MovieListFragment.newInstance(this,
+                        .replace(
+                            R.id.fragment_container, MovieListFragment.newInstance(this,
                             this,this,
                             genreSave,isListUpdated,moviePosition))
                         .commit()
