@@ -1,16 +1,23 @@
 package com.example.summer_school_hw.view
 
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.summer_school_hw.R
 import com.example.summer_school_hw.view.fragments.UserInfoFragment
 import com.example.summer_school_hw.ui.main.MovieListFragment
+import com.example.summer_school_hw.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeListener,
     MovieListFragment.OnMovieListUpdateListener, MovieListFragment.OnMovieitemTapedListener{
+
+
     val MAIN_FRAGMENT_TAG = "MainFragment"
     val BACK_STACK_ROOT_TAG = "RootFragment"
 
@@ -23,10 +30,14 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
         private const val MOVIE_LIST_UPDATED = "MovieListUpd"
         private const val MOVIE_SELECTED = "MovieSelected"
     }
+
     lateinit var mainFragment:MovieListFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //subscribe to genreList
+
+
         if (savedInstanceState == null) {
             mainFragment = MovieListFragment.newInstance(this,this,this,
                 genreSave,isListUpdated,moviePosition)
@@ -68,6 +79,8 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
                 else -> null
             } != null
         }
+
+
     }
 
     override fun onMovieListChanged(genrePosition: Int) {
@@ -93,6 +106,9 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
     override fun OnMovieSelected(_moviePosition: Int) {
         moviePosition=_moviePosition
     }
-
+    //temp
+    data class ViewState(
+        val isDownloaded: Boolean = false
+    )
 
 }

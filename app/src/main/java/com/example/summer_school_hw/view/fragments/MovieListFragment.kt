@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -20,6 +22,7 @@ import com.example.summer_school_hw.model.data.features.genres.GenresDataSourceI
 import com.example.summer_school_hw.model.data.features.movies.MoviesDataSourceImpl
 import com.example.summer_school_hw.model.data.presentation.GenresModel
 import com.example.summer_school_hw.model.data.presentation.MoviesModel
+import com.example.summer_school_hw.viewmodel.MainViewModel
 import kotlinx.coroutines.*
 
 
@@ -39,6 +42,8 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     private val BACK_STACK_ROOT_TAG = "movie_details_fragment"
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val coroutineHandler = CoroutineExceptionHandler { _, exception -> Log.i("Coroutine","Exception") }
+
+    private val mainViewModel by lazy {ViewModelProviders.of(this).get(MainViewModel::class.java)}
 
 
     private val CardMargin: Int
@@ -73,8 +78,14 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         initRecyclerViewGenres(view)
         initRecyclerMovies(view)
         initSwipeRefreshContainer(view)
-        restoreConfiguration()
+        //restoreConfiguration()
+        viewModelInit()
         return view
+    }
+
+    private fun viewModelInit() {
+        mainViewModel.moviesList.observe(viewLifecycleOwner, Observer(::updateList))
+        mainViewModel.getMovies()?.let { updateList(it) }
     }
 
     override fun onMovieClick(position: Int){
@@ -85,14 +96,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     }
 
     override fun onGenreClick(position: Int) {
-        try {
-            val oldList = movies
-            val new_list = oldList.filter { it.genre.contains(genres[position]) }
-            updateList(new_list)
-            initGenre=position
-            movieListListener.onMovieListChanged(initGenre)
-        } catch (e: NumberFormatException) {
-        }
+        mainViewModel.setMovieGenre(genres[position])
     }
 
     private fun initSwipeRefreshContainer(view: View){
@@ -132,11 +136,8 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     //"Uploading movies" using corrutines
     fun updateMoviesList() {
         CoroutineScope(Dispatchers.Main).launch(coroutineHandler) {
-            movies = addNewMoviesSuspending()+moviesModel.getMovies()
+            addNewMoviesSuspending()
             swipeRefreshLayout.isRefreshing = false
-            MainScope().launch {
-                updateList(movies)
-            }
             movieListListener.onMovieListChanged(-1)
         }
         movieUpdateListener.OnMovieListUpdated()
@@ -145,10 +146,8 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
 
     suspend fun addNewMoviesSuspending() = coroutineScope {
         //throw Exception()
-        var newList: List<MovieDto> = emptyList()
         delay(3000L)
-        newList = moviesModel.downloadMovies()
-        return@coroutineScope newList
+        mainViewModel.downloadMovies()
     }
 
     private fun initRecyclerViewGenres(view: View) {
@@ -170,7 +169,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
             recyclerViewMovies.layoutManager = this
         }
         recyclerViewMovies.adapter = MovieAdapter
-        updateList(movies)
+        //updateList(movies)
         recyclerViewMovies.addItemDecoration(
             SpacesItemDecoration(getResources().getDimension(R.dimen.movieCardmarginVervical).toInt(),
                 CardMargin)

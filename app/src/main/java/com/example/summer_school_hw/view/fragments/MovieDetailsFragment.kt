@@ -19,7 +19,6 @@ import com.example.summer_school_hw.model.data.presentation.ActorsModel
 
 
 class MovieDetailsFragment : Fragment(){
-    private lateinit var actorsModel: ActorsModel
     var movies: List<MovieDto> = emptyList()
     var genres: List<GenreDto> = emptyList()
     var actors: List<ActorDto> = emptyList()
