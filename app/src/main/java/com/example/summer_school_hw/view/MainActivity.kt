@@ -3,9 +3,11 @@ package com.example.summer_school_hw.view
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.summer_school_hw.R
@@ -14,8 +16,7 @@ import com.example.summer_school_hw.ui.main.MovieListFragment
 import com.example.summer_school_hw.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeListener,
-    MovieListFragment.OnMovieListUpdateListener, MovieListFragment.OnMovieitemTapedListener{
+class MainActivity : AppCompatActivity(){
 
 
     val MAIN_FRAGMENT_TAG = "MainFragment"
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
         private const val MOVIE_SELECTED = "MovieSelected"
     }
 
+    private val mainViewModel: MainViewModel by viewModels()
+
     lateinit var mainFragment:MovieListFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +42,7 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
 
 
         if (savedInstanceState == null) {
-            mainFragment = MovieListFragment.newInstance(this,this,this,
-                genreSave,isListUpdated,moviePosition)
+            mainFragment = MovieListFragment.newInstance()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, mainFragment, MAIN_FRAGMENT_TAG)
                 .commit()
@@ -54,8 +56,7 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
             genreSave = savedInstanceState.getInt(MOVIE_ARGUMENT)
             isListUpdated = savedInstanceState.getBoolean(MOVIE_LIST_UPDATED)
             moviePosition = savedInstanceState.getInt(MOVIE_SELECTED)
-            mainFragment = MovieListFragment.newInstance(this,this,this,
-                genreSave,isListUpdated,moviePosition)
+            mainFragment = MovieListFragment.newInstance()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, mainFragment, MAIN_FRAGMENT_TAG)
                 .commit()
@@ -66,9 +67,7 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
                 R.id.nav_home -> {
                     supportFragmentManager.beginTransaction()
                         .replace(
-                            R.id.fragment_container, MovieListFragment.newInstance(this,
-                            this,this,
-                            genreSave,isListUpdated,moviePosition))
+                            R.id.fragment_container, MovieListFragment.newInstance())
                         .commit()
                 }
                 R.id.nav_profile -> {
@@ -83,10 +82,6 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
 
     }
 
-    override fun onMovieListChanged(genrePosition: Int) {
-        genreSave = genrePosition
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(MOVIE_ARGUMENT, genreSave)
@@ -95,20 +90,7 @@ class MainActivity : AppCompatActivity(), MovieListFragment.OnMovieLisChangeList
     }
 
     override fun onBackPressed() {
-        moviePosition=-1;
+        mainViewModel.selectMovie(-1)
         super.onBackPressed()
     }
-
-    override fun OnMovieListUpdated() {
-        isListUpdated = true
-    }
-
-    override fun OnMovieSelected(_moviePosition: Int) {
-        moviePosition=_moviePosition
-    }
-    //temp
-    data class ViewState(
-        val isDownloaded: Boolean = false
-    )
-
 }

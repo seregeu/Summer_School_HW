@@ -11,22 +11,17 @@ import com.example.summer_school_hw.model.data.presentation.GenresModel
 import com.example.summer_school_hw.model.data.presentation.MoviesModel
 import com.example.summer_school_hw.view.MainActivity
 
-typealias MyViewState = MainActivity.ViewState
 
 class  MainViewModel: ViewModel() {
     //models
     private var moviesModel = MoviesModel(MoviesDataSourceImpl())
     private var genresModel = GenresModel(GenresDataSourceImpl())
 
-    val viewState: LiveData<MyViewState> get() = _viewState
-    private val _viewState = MutableLiveData<MyViewState>()
-
     //data lists
     val moviesList: LiveData<List<MovieDto>> get() = _moviesList
     private val _moviesList = MutableLiveData<List<MovieDto>>()
 
-   // var genresList: LiveData<List<GenreDto>> get() = _genresList
-    private var _genresList = MutableLiveData<List<GenreDto>>()
+    private var moviePosition: Int = -1
 
     init {
         loadMovies()
@@ -51,4 +46,9 @@ class  MainViewModel: ViewModel() {
 
     fun getMovies() = _moviesList.value
 
+    fun selectMovie(_moviePosition:Int){
+        moviePosition=_moviePosition
+    }
+
+    fun restoreMovie()=moviePosition
 }
