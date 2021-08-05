@@ -35,10 +35,10 @@ class MainActivity : AppCompatActivity(){
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.MovieListFragment -> {
+                R.id.movieListFragment -> {
                     navController.navigate(R.id.movieListFragment)
                 }
-                R.id.UserInfoFragment -> {
+                R.id.userInfoFragment -> {
                     navController.navigate(R.id.userInfoFragment)
                 }
                 else -> null
