@@ -20,14 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(){
 
-
-    val MAIN_FRAGMENT_TAG = "MainFragment"
-    val BACK_STACK_ROOT_TAG = "RootFragment"
-
     //for preserving the state of a fragment upon destruction
-    var genreSave: Int = -1
-    var moviePosition: Int = -1
-    var isListUpdated: Boolean=false
     companion object {
         private const val MOVIE_ARGUMENT = "MovieArgument"
         private const val MOVIE_LIST_UPDATED = "MovieListUpd"
@@ -42,21 +35,14 @@ class MainActivity : AppCompatActivity(){
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.movieListFragment -> {
+                R.id.MovieListFragment -> {
                     navController.navigate(R.id.movieListFragment)
                 }
-                R.id.userInfoFragment -> {
+                R.id.UserInfoFragment -> {
                     navController.navigate(R.id.userInfoFragment)
                 }
                 else -> null
             } != null
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(MOVIE_ARGUMENT, genreSave)
-        outState.putBoolean(MOVIE_LIST_UPDATED, isListUpdated)
-        outState.putInt(MOVIE_SELECTED, moviePosition)
     }
 }

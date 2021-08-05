@@ -23,17 +23,9 @@ import com.example.summer_school_hw.viewmodel.MainViewModel
 
 
 class MovieDetailsFragment : Fragment() {
-    var movies: List<MovieDto> = emptyList()
-    var genres: List<GenreDto> = emptyList()
     var actors: List<ActorDto> = emptyList()
     lateinit var recyclerViewActors: RecyclerView
 
-    private var movieName: String? = null
-    private var movieDescription: String? = null
-    private var movieStarNumber: Int? = null
-    private var movieAge: Int? = null
-    private var movieImageUrl: String? = null
-    private var movieGenreName: String? = null
     private var movieItem: Int? = null
 
     private lateinit var moviePoster: ImageView
@@ -48,12 +40,6 @@ class MovieDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            /* movieName = it.getString("movieTitle")
-            movieGenreName = it.getString("movieGenreName")
-            movieStarNumber = it.getInt("movieStarNumber")
-            movieAge = it.getInt("movieAgeLimit")
-            movieDescription = it.getString("movieDescription")
-            movieImageUrl = it.getString("movieImageUrl")*/
             movieItem = it.getInt("MOVIE")
         }
     }
