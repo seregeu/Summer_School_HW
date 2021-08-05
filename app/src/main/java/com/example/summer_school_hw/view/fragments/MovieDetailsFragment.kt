@@ -1,6 +1,8 @@
 package com.example.summer_school_hw.ui.main
 
 import android.os.Bundle
+import android.provider.Settings.Global.putInt
+import android.provider.Settings.Global.putString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.summer_school_hw.R
@@ -16,9 +19,10 @@ import com.example.summer_school_hw.model.data.dto.ActorDto
 import com.example.summer_school_hw.model.data.dto.GenreDto
 import com.example.summer_school_hw.model.data.dto.MovieDto
 import com.example.summer_school_hw.model.data.presentation.ActorsModel
+import com.example.summer_school_hw.viewmodel.MainViewModel
 
 
-class MovieDetailsFragment : Fragment(){
+class MovieDetailsFragment : Fragment() {
     var movies: List<MovieDto> = emptyList()
     var genres: List<GenreDto> = emptyList()
     var actors: List<ActorDto> = emptyList()
@@ -30,6 +34,7 @@ class MovieDetailsFragment : Fragment(){
     private var movieAge: Int? = null
     private var movieImageUrl: String? = null
     private var movieGenreName: String? = null
+    private var movieItem: Int? = null
 
     private lateinit var moviePoster: ImageView
     private lateinit var movieNameTextView: TextView
@@ -38,15 +43,18 @@ class MovieDetailsFragment : Fragment(){
     private lateinit var movieRatingBar: RatingBar
     private lateinit var movieGenreTextView: TextView
 
+    private val mainViewModel: MainViewModel by activityViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            movieName = it.getString("movieTitle")
+            /* movieName = it.getString("movieTitle")
             movieGenreName = it.getString("movieGenreName")
             movieStarNumber = it.getInt("movieStarNumber")
             movieAge = it.getInt("movieAgeLimit")
             movieDescription = it.getString("movieDescription")
-            movieImageUrl = it.getString("movieImageUrl")
+            movieImageUrl = it.getString("movieImageUrl")*/
+            movieItem = it.getInt("MOVIE")
         }
     }
 
@@ -60,11 +68,14 @@ class MovieDetailsFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val movie = mainViewModel.restoreMovie()
+        if (movie != null) {
+            PutDataToForm(view,movie)
+        }
         initRecyclerActors(view)
-        PutDataToForm(view)
     }
 
-    private fun PutDataToForm(view: View){
+    private fun PutDataToForm(view: View, movie:MovieDto) {
         moviePoster = view.findViewById(R.id.shapeableImageView)
         movieNameTextView = view.findViewById(R.id.text_film_name)
         movieDescriptionTextView = view.findViewById(R.id.text_film_description)
@@ -72,28 +83,13 @@ class MovieDetailsFragment : Fragment(){
         movieRatingBar = view.findViewById(R.id.ratingBar_indicator)
         movieGenreTextView = view.findViewById(R.id.text_view_genre)
 
-        moviePoster.load(movieImageUrl)
-        movieNameTextView.text = movieName
-        movieDescriptionTextView.text = movieDescription
-        movieAgeTextView.text = movieAge.toString() + "+"
-        movieGenreTextView.text = movieGenreName
-        movieRatingBar.rating = movieStarNumber!!.toFloat()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(movie: MovieDto) =
-            MovieDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putString("movieTitle", movie.title)
-                    putString("movieDescription", movie.description)
-                    putInt("movieStarNumber", movie.rateScore)
-                    putInt("movieAgeLimit", movie.ageRestriction)
-                    putString("movieGenreName", movie.genre[0].genreName)
-                    putString("movieImageUrl", movie.posterUrl)
-                    actors=movie.actors
-                }
-            }
+        moviePoster.load(movie.posterUrl)
+        movieNameTextView.text = movie.title
+        movieDescriptionTextView.text = movie.description
+        movieAgeTextView.text = movie.ageRestriction.toString() + "+"
+        movieGenreTextView.text = movie.genre[0].genreName
+        movieRatingBar.rating = movie.rateScore!!.toFloat()
+        actors=movie.actors
     }
 
     private fun initRecyclerActors(view: View) {

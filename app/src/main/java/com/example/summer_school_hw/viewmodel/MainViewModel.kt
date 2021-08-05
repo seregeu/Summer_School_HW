@@ -50,5 +50,7 @@ class  MainViewModel: ViewModel() {
         moviePosition=_moviePosition
     }
 
-    fun restoreMovie()=moviePosition
+    fun restoreMoviePosition()=moviePosition
+
+    fun restoreMovie()= _moviesList.value?.get(moviePosition)
 }
