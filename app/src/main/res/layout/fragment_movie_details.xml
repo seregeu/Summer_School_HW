@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".view.MainActivity"
     android:focusable = "true"
     android:focusableInTouchMode = "true">
 
@@ -21,7 +21,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nextFocusUp="@id/card_view"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -42,7 +42,7 @@
 
             <TextView
                 android:id="@+id/text_view_genre"
-                android:layout_width="@dimen/sh_genre_oval_width"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/sh_genre_oval_height"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
@@ -58,7 +58,7 @@
                 android:id="@+id/text_view_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="96dp"
+                android:layout_marginLeft="98dp"
                 android:layout_marginTop="35dp"
                 android:fontFamily="@font/font_roboto_regular"
                 android:gravity="center"
@@ -83,11 +83,12 @@
             <TextView
                 android:id="@+id/text_film_name"
                 android:layout_width="wrap_content"
+                android:maxWidth="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="64dp"
                 android:fontFamily="@font/font_roboto_bold"
-                android:gravity="center"
+                android:gravity="left"
                 android:text="@string/film_name"
                 android:textColor="@color/text_color"
                 android:textSize="20sp" />
@@ -97,16 +98,20 @@
                 style="@style/ImageRatingBar"
                 android:layout_width="82dp"
                 android:layout_marginLeft="24dp"
-                android:layout_marginTop="93dp"
+                android:layout_marginTop="110dp"
                 android:layout_height="wrap_content"
                 android:numStars="5"
                 android:stepSize="1" />
 
             <TextView
                 android:id="@+id/text_film_description"
-                android:layout_width="332dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="8dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="8dp"
                 android:layout_marginTop="128dp"
                 android:fontFamily="@font/font_roboto_regular"
                 android:textColor="@color/text_color"

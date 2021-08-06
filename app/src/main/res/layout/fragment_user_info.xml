@@ -5,44 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
         android:layout_gravity="left">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/user_info_guideline_left"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="20dp" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/user_info_guideline_right"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="20dp" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/user_info_card_view"
+        <ImageView
+            android:id="@+id/shapeableImageView"
             android:layout_width="72dp"
             android:layout_height="72dp"
+            android:layout_marginLeft="268dp"
             android:layout_marginTop="48dp"
-            android:layout_marginEnd="6dp"
-            app:cardCornerRadius="40dp"
-            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginRight="6dp">
-            <ImageView
-                android:layout_gravity="center"
-                android:id="@+id/user_info_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:src="@drawable/image_smile"/>
-        </androidx.cardview.widget.CardView>
+            android:scaleType="centerCrop"
+            android:src="@drawable/image_avatar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/user_info_name"
@@ -54,7 +32,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -62,12 +40,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:text="@string/User_mail_label"
             android:fontFamily="@font/font_roboto_regular"
+            android:text="@string/User_mail_label"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:typeface="normal"
-            app:layout_constraintStart_toEndOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_info_name" />
 
         <TextView
@@ -80,7 +58,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/user_info_email" />
 
         <HorizontalScrollView
@@ -88,46 +66,40 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="14sp"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_interests">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <TextView
                     android:layout_width="@dimen/sh_genre_oval_width"
                     android:layout_height="@dimen/sh_genre_oval_height"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="32dp"
                     android:background="@drawable/sh_genre_oval"
                     android:fontFamily="@font/font_roboto_regular"
                     android:gravity="center"
                     android:text="@string/shooters_genre_label"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/text_size_genre" />
+                    android:textSize="@dimen/text_size_genre"
+                    android:layout_marginRight="8dp"/>
 
                 <TextView
                     android:layout_width="@dimen/sh_genre_oval_width"
                     android:layout_height="@dimen/sh_genre_oval_height"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="32dp"
                     android:background="@drawable/sh_genre_oval"
                     android:fontFamily="@font/font_roboto_regular"
                     android:gravity="center"
                     android:text="@string/Drama_genre_label"
                     android:textColor="@color/text_color"
-                    android:textSize="@dimen/text_size_genre" />
+                    android:textSize="@dimen/text_size_genre"
+                    android:layout_marginRight="8dp"/>
 
                 <TextView
                     android:layout_width="@dimen/sh_genre_oval_width"
                     android:layout_height="@dimen/sh_genre_oval_height"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="32dp"
                     android:background="@drawable/sh_genre_oval"
                     android:fontFamily="@font/font_roboto_regular"
                     android:gravity="center"
@@ -149,7 +121,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_genres" />
 
         <TextView
@@ -157,10 +129,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name_label"
-            android:textColor="@color/cardview_gray"
+            android:textColor="@color/avatar_circle_color_gray"
             android:textSize="12sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_personal_data" />
 
         <EditText
@@ -171,7 +143,7 @@
             android:fontFamily="@font/font_roboto_regular"
             android:inputType="textPersonName"
             android:text="@string/konstantin_label"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_name" />
 
         <TextView
@@ -179,10 +151,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/password_label"
-            android:textColor="@color/cardview_gray"
+            android:textColor="@color/avatar_circle_color_gray"
             android:textSize="12sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_editable_name" />
 
         <EditText
@@ -190,10 +162,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword"
             android:text="*************"
             android:fontFamily="@font/font_roboto_regular"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_password" />
 
         <TextView
@@ -202,10 +173,10 @@
             android:fontFamily="@font/font_roboto_regular"
             android:layout_height="wrap_content"
             android:text="@string/email_label"
-            android:textColor="@color/cardview_gray"
+            android:textColor="@color/avatar_circle_color_gray"
             android:textSize="12sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_editable_password" />
 
         <EditText
@@ -216,7 +187,7 @@
             android:fontFamily="@font/font_roboto_regular"
             android:inputType="textEmailAddress"
             android:text="konst.89@mail.com"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_email" />
 
         <TextView
@@ -225,10 +196,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/font_roboto_regular"
             android:text="@string/phone_label"
-            android:textColor="@color/cardview_gray"
+            android:textColor="@color/avatar_circle_color_gray"
             android:textSize="12sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_editable_email" />
 
         <EditText
@@ -238,7 +209,7 @@
             android:ems="10"
             android:inputType="phone"
             android:fontFamily="@font/font_roboto_regular"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_phone" />
 
         <TextView
@@ -251,7 +222,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_editable_phone" />
 
         <TextView
@@ -264,16 +235,16 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_settings" />
 
         <ImageView
             android:id="@+id/user_info_arrow_1"
-            android:layout_width="12dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="45dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_settings" />
 
         <TextView
@@ -286,7 +257,7 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_notifications" />
 
         <ImageView
@@ -295,7 +266,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_arrow_1"/>
 
         <TextView
@@ -308,7 +279,7 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_privacy" />
 
         <ImageView
@@ -317,8 +288,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_1"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_1" />
 
         <TextView
             android:id="@+id/user_info_title_language"
@@ -330,7 +301,7 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_theme" />
 
         <ImageView
@@ -339,8 +310,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_3"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_3" />
 
         <TextView
             android:id="@+id/user_info_title_data_storage"
@@ -352,7 +323,7 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_language" />
 
         <ImageView
@@ -361,8 +332,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_4"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_4" />
 
         <TextView
             android:id="@+id/user_info_title_annex"
@@ -374,7 +345,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_data_storage" />
 
         <TextView
@@ -387,7 +358,7 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_annex" />
 
         <ImageView
@@ -396,8 +367,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_5"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_5" />
 
         <TextView
             android:id="@+id/user_info_title_tell_about_problem"
@@ -409,7 +380,7 @@
             android:textColor="@color/black"
             android:textSize="14sp"
             android:typeface="normal"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_info_title_ask_question" />
 
         <ImageView
@@ -418,22 +389,30 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_settings_arrow"
-            app:layout_constraintEnd_toStartOf="@id/user_info_guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_6"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_title_annex" />
 
+        <ImageView
+            android:id="@+id/user_info_arrow_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_settings_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_info_arrow_7" />
         <Button
             android:id="@+id/user_info_button_exit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="96dp"
-            android:backgroundTint="@color/cardview_gray"
+            android:backgroundTint="@color/avatar_circle_color_gray"
             android:text="@string/exit_label"
             android:textColor="@color/black"
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/user_info_guideline_right"
-            app:layout_constraintStart_toStartOf="@id/user_info_guideline_left"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_info_title_tell_about_problem" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

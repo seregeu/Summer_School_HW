@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Summer_school_HW">
         <activity android:name=".activity_movies_list"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
