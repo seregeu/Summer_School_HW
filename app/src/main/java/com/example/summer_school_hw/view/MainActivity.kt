@@ -12,6 +12,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.summer_school_hw.R
 import com.example.summer_school_hw.view.fragments.UserInfoFragment
 import com.example.summer_school_hw.ui.main.MovieListFragment
@@ -31,18 +35,7 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.fragment_container)
-
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        navView.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.movieListFragment -> {
-                    navController.navigate(R.id.movieListFragment)
-                }
-                R.id.userInfoFragment -> {
-                    navController.navigate(R.id.userInfoFragment)
-                }
-                else -> null
-            } != null
-        }
+        navView.setupWithNavController(navController)
     }
 }
