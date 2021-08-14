@@ -47,8 +47,6 @@ class  MainViewModel: ViewModel() {
             _moviesList.postValue(moviesByGenre)
     }
 
-
-
     fun getListGenres()= converter.genreDtoListToGenreList(genresModel.getGenres())
 
     fun getMovies() = _moviesList.value
@@ -62,18 +60,14 @@ class  MainViewModel: ViewModel() {
     fun restoreMovie()= _moviesList.value?.get(moviePosition)
 
     fun restoreGenre(movieName:String):Genre {
-        val movie = _moviesList.value?.get(moviePosition)
         val a = applicationDatabase?.movieDao()?.getGenreOfMovie(movieName)
         return a?.first()!!.genres[0]
     }
 
     fun restoreActors(movieName:String):List<Actor> {
-        val movie = _moviesList.value?.get(moviePosition)
         val actors = applicationDatabase?.movieDao()?.getActorsOfMovie(movieName)
         return actors?.first()!!.actors
     }
-
-
 
     fun initDatabase(context: Context) {
         ApplicationDatabase.initDatabase(context)
@@ -84,6 +78,7 @@ class  MainViewModel: ViewModel() {
     fun downloadMovies(){
         val movie_list=moviesModel.downloadMovies() + moviesModel.getMovies()
         applicationDatabase?.movieDao()?.deleteAll()
+        _moviesList.postValue(converter.movieDtoListtoMovieList(movie_list))
         putDataToDB(movie_list)
     }
 
@@ -106,8 +101,5 @@ class  MainViewModel: ViewModel() {
         movieGenreRelations.forEach{
             applicationDatabase?.movieDao()?.insertMovieToGenreCrossRef(it)
         }
-        _moviesList.postValue(converter.movieDtoListtoMovieList(movie_list))
     }
-
-
 }
