@@ -10,13 +10,13 @@ import android.widget.TextView
 import coil.load
 import com.example.summer_school_hw.R
 import com.example.summer_school_hw.autoNotify
-import com.example.summer_school_hw.model.data.dto.MovieDto
+import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.google.android.material.imageview.ShapeableImageView
 import kotlin.properties.Delegates
 
 class GridMovieResyclerAdapter(private val listener: OnItemFilmListener): RecyclerView.Adapter<GridMovieResyclerAdapter.ViewHolder>()  {
 
-    var movies: List<MovieDto> by Delegates.observable(emptyList()) { _, oldList, newList ->
+    var movies: List<Movie> by Delegates.observable(emptyList()) { _, oldList, newList ->
         autoNotify(oldList, newList) { o, n -> o.title == n.title }
     }
 

@@ -19,12 +19,19 @@ import com.example.summer_school_hw.model.data.dto.ActorDto
 import com.example.summer_school_hw.model.data.dto.GenreDto
 import com.example.summer_school_hw.model.data.dto.MovieDto
 import com.example.summer_school_hw.model.data.presentation.ActorsModel
+import com.example.summer_school_hw.model.data.room.entities.Actor
+import com.example.summer_school_hw.model.data.room.entities.Genre
+import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.example.summer_school_hw.viewmodel.MainViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MovieDetailsFragment : Fragment() {
-    var actors: List<ActorDto> = emptyList()
+    var actors: List<Actor> = emptyList()
     lateinit var recyclerViewActors: RecyclerView
+    lateinit var genre: Genre
 
     private var movieItem: Int? = null
 
@@ -61,7 +68,7 @@ class MovieDetailsFragment : Fragment() {
         initRecyclerActors(view)
     }
 
-    private fun PutDataToForm(view: View, movie:MovieDto) {
+    private fun PutDataToForm(view: View, movie: Movie) {
         moviePoster = view.findViewById(R.id.shapeableImageView)
         movieNameTextView = view.findViewById(R.id.text_film_name)
         movieDescriptionTextView = view.findViewById(R.id.text_film_description)
@@ -73,9 +80,12 @@ class MovieDetailsFragment : Fragment() {
         movieNameTextView.text = movie.title
         movieDescriptionTextView.text = movie.description
         movieAgeTextView.text = movie.ageRestriction.toString() + "+"
-        movieGenreTextView.text = movie.genre[0].genreName
+        mainViewModel.restoreMovie()
+        val genre = mainViewModel.restoreGenre(movie.title)
+        movieGenreTextView.text = genre.genreName
         movieRatingBar.rating = movie.rateScore!!.toFloat()
-        actors=movie.actors
+        val _actors = mainViewModel.restoreActors(movie.title)
+        actors=_actors
     }
 
     private fun initRecyclerActors(view: View) {

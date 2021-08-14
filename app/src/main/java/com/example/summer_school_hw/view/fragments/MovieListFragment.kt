@@ -19,14 +19,15 @@ import com.example.summer_school_hw.model.data.RecycleAdapters.GenreRecyclerAdap
 import com.example.summer_school_hw.model.data.RecycleAdapters.GridMovieResyclerAdapter
 import com.example.summer_school_hw.model.data.RecycleAdapters.SpacesItemDecoration
 import com.example.summer_school_hw.model.data.dto.GenreDto
-import com.example.summer_school_hw.model.data.dto.MovieDto
+import com.example.summer_school_hw.model.data.room.entities.Genre
+import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.example.summer_school_hw.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.*
 
 
 class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, GenreRecyclerAdapter.OnGenreClickListener {
-    private var genres: List<GenreDto> = emptyList()
+    private var genres: List<Genre> = emptyList()
     lateinit var recyclerViewMovies: RecyclerView
     private val MovieAdapter: GridMovieResyclerAdapter = GridMovieResyclerAdapter(this)
     private var isListUpdated: Boolean = false
@@ -61,7 +62,8 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     ): View {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
         viewModelInit()
-
+        mainViewModel.initDatabase(requireContext())
+       // mainViewModel.loadMovies()
         return view
     }
 
@@ -72,6 +74,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         initRecyclerViewGenres(view)
         initSwipeRefreshContainer(view)
         restoreConfiguration()
+
     }
 
     private fun viewModelInit() {
@@ -109,7 +112,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     }
 
     suspend fun addNewMoviesSuspending() = coroutineScope {
-//throw Exception()
+    //throw Exception()
         delay(3000L)
         mainViewModel.downloadMovies()
     }
@@ -144,7 +147,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         )
     }
 
-    fun updateList(list: List<MovieDto>) {
+    fun updateList(list: List<Movie>) {
         MovieAdapter.movies = list
         recyclerViewMovies.scrollToPosition(0)
     }

@@ -7,8 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.summer_school_hw.R
 import com.example.summer_school_hw.model.data.dto.GenreDto
+import com.example.summer_school_hw.model.data.room.entities.Genre
 
-class GenreRecyclerAdapter(private val genres: List<GenreDto>,
+class GenreRecyclerAdapter(private val genres: List<Genre>,
                            private val listener: GenreRecyclerAdapter.OnGenreClickListener
 ) :
     RecyclerView.Adapter<GenreRecyclerAdapter.MyViewHolder>() {
