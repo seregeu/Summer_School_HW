@@ -14,9 +14,8 @@ import com.example.summer_school_hw.model.data.features.movies.MoviesDataSourceI
 import com.example.summer_school_hw.model.data.presentation.ActorsModel
 import com.example.summer_school_hw.model.data.presentation.GenresModel
 import com.example.summer_school_hw.model.data.presentation.MoviesModel
+import com.example.summer_school_hw.model.data.room.ConverterForEntities
 import com.example.summer_school_hw.model.data.room.entities.*
-import com.example.summer_school_hw.model.data.room.relations.MovieToActorCrossRef
-import com.example.summer_school_hw.model.data.room.relations.MovieToGenreCrossRef
 
 
 class  MainViewModel: ViewModel() {
@@ -33,12 +32,14 @@ class  MainViewModel: ViewModel() {
 
     private var applicationDatabase: ApplicationDatabase? = null
 
+    val converter = ConverterForEntities()
+
     init {
         loadMovies()
     }
 
     fun loadMovies(){
-        _moviesList.postValue(movieDtoListtoMovieList(moviesModel.getMovies()))
+        _moviesList.postValue(converter.movieDtoListtoMovieList(moviesModel.getMovies()))
     }
 
     fun setMovieGenre(genre: Genre){
@@ -48,7 +49,7 @@ class  MainViewModel: ViewModel() {
 
 
 
-    fun getListGenres()= genreDtoListToGenreList(genresModel.getGenres())
+    fun getListGenres()= converter.genreDtoListToGenreList(genresModel.getGenres())
 
     fun getMovies() = _moviesList.value
 
@@ -77,114 +78,36 @@ class  MainViewModel: ViewModel() {
     fun initDatabase(context: Context) {
         ApplicationDatabase.initDatabase(context)
         applicationDatabase = ApplicationDatabase.getInstance()!!
-        if (applicationDatabase?.movieDao()?.getAll()?.size == 0) {
-            applicationDatabase?.movieDao()?.insertAll(movieDtoListtoMovieList(moviesModel.getMovies()))
-        }
-        if (applicationDatabase?.genreDao()?.getAll()?.size == 0) {
-            applicationDatabase?.genreDao()?.insertAll(genreDtoListToGenreList(genresModel.getGenres()))
-        }
-        if (applicationDatabase?.actorDao()?.getAll()?.size == 0) {
-            applicationDatabase?.actorDao()?.insertAll(actorDtoListtoActorList(actorsModel.getActors()))
-        }
-        val movieActorRelations = getMovieActorRelationsFromDto(moviesModel.getMovies())
-        movieActorRelations.forEach{
-            applicationDatabase?.movieDao()?.insertMovieToActorCrossRef(it)
-        }
-
-        val movieGenreRelations = getMovieGenreRelationsFromDto(moviesModel.getMovies())
-        movieGenreRelations.forEach{
-            applicationDatabase?.movieDao()?.insertMovieToGenreCrossRef(it)
-        }
+        putDataToDB(moviesModel.getMovies())
     }
 
     fun downloadMovies(){
         val movie_list=moviesModel.downloadMovies() + moviesModel.getMovies()
         applicationDatabase?.movieDao()?.deleteAll()
+        putDataToDB(movie_list)
+    }
+
+    fun putDataToDB(movie_list:List<MovieDto>){
         if (applicationDatabase?.movieDao()?.getAll()?.size == 0) {
-            applicationDatabase?.movieDao()?.insertAll(movieDtoListtoMovieList(movie_list))
+            applicationDatabase?.movieDao()?.insertAll(converter.movieDtoListtoMovieList(movie_list))
         }
         if (applicationDatabase?.genreDao()?.getAll()?.size == 0) {
-            applicationDatabase?.genreDao()?.insertAll(genreDtoListToGenreList(genresModel.getGenres()))
+            applicationDatabase?.genreDao()?.insertAll(converter.genreDtoListToGenreList(genresModel.getGenres()))
         }
         if (applicationDatabase?.actorDao()?.getAll()?.size == 0) {
-            applicationDatabase?.actorDao()?.insertAll(actorDtoListtoActorList(actorsModel.getActors()))
+            applicationDatabase?.actorDao()?.insertAll(converter.actorDtoListtoActorList(actorsModel.getActors()))
         }
-        val movieActorRelations = getMovieActorRelationsFromDto(movie_list)
+        val movieActorRelations = converter.getMovieActorRelationsFromDto(movie_list)
         movieActorRelations.forEach{
             applicationDatabase?.movieDao()?.insertMovieToActorCrossRef(it)
         }
 
-        val movieGenreRelations = getMovieGenreRelationsFromDto(movie_list)
+        val movieGenreRelations = converter.getMovieGenreRelationsFromDto(movie_list)
         movieGenreRelations.forEach{
             applicationDatabase?.movieDao()?.insertMovieToGenreCrossRef(it)
         }
-        _moviesList.postValue(movieDtoListtoMovieList(movie_list))
-
+        _moviesList.postValue(converter.movieDtoListtoMovieList(movie_list))
     }
 
-    //вынести
-    fun MovieDto.toMovie() = Movie(
-        id = null,
-        title=title,
-        description=description,
-        rateScore = rateScore,
-        ageRestriction=ageRestriction,
-        imageUrl = imageUrl,
-        posterUrl = posterUrl
-    )
-    fun movieDtoListtoMovieList(movieDtoList: List<MovieDto>):List<Movie>{
-        var movieList = mutableListOf<Movie>()
-        for(elem in movieDtoList){
-            var _elem: Movie=elem.toMovie()
-            movieList.add(_elem)
-        }
-        return movieList
-    }
-    fun GenreDto.toGenre() = Genre(
-        id = null,
-        genreName = genreName,
-        restId = genreId
-    )
-    fun genreDtoListToGenreList(genreDtoList: List<GenreDto>):List<Genre>{
-        var genreList = mutableListOf<Genre>()
-        for(elem in genreDtoList){
-            var _elem: Genre=elem.toGenre()
-            genreList.add(_elem)
-        }
-        return genreList
-    }
-    fun ActorDto.toActor() = Actor(
-        id = null,
-        avatarURL = avatarURL,
-        name = name
-    )
-    fun actorDtoListtoActorList( actorDtoList: List<ActorDto>):List<Actor>{
-        var  actorList = mutableListOf<Actor>()
-        for(elem in  actorDtoList){
-            var _elem: Actor=elem.toActor()
-            actorList.add(_elem)
-        }
-        return  actorList
-    }
-
-    fun getMovieActorRelationsFromDto(movieDtoList: List<MovieDto>):List<MovieToActorCrossRef>{
-        val movieActorRelations = mutableListOf<MovieToActorCrossRef>()
-        for(movie in movieDtoList){
-            for (actor in movie.actors) {
-                movieActorRelations.add(MovieToActorCrossRef(movie.title, actor.name))
-            }
-        }
-        return movieActorRelations
-    }
-
-    fun getMovieGenreRelationsFromDto(movieDtoList: List<MovieDto>):List<MovieToGenreCrossRef>{
-        val movieGenreRelations = mutableListOf<MovieToGenreCrossRef>()
-        for(movie in movieDtoList){
-            for (genre in movie.genre) {
-                movieGenreRelations.add(MovieToGenreCrossRef(movie.title, genre.genreName))
-            }
-        }
-        return movieGenreRelations
-    }
 
 }
