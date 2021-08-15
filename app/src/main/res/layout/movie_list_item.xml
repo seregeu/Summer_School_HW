@@ -49,6 +49,7 @@
         android:background="?android:attr/windowBackground"
         android:numStars="5"
         android:stepSize="1"
+        android:isIndicator="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/list_film_cover" />
 
