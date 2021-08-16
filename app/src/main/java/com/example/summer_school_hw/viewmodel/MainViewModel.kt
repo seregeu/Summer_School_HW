@@ -16,6 +16,16 @@ import com.example.summer_school_hw.model.data.presentation.GenresModel
 import com.example.summer_school_hw.model.data.presentation.MoviesModel
 import com.example.summer_school_hw.model.data.room.ConverterForEntities
 import com.example.summer_school_hw.model.data.room.entities.*
+import com.example.summer_school_hw.model.retrofit.Interface.RetrofitServices
+import com.example.summer_school_hw.model.retrofit.Common
+import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieInList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class  MainViewModel: ViewModel() {
@@ -23,6 +33,7 @@ class  MainViewModel: ViewModel() {
     private var moviesModel = MoviesModel(MoviesDataSourceImpl())
     private var genresModel = GenresModel(GenresDataSourceImpl())
     private var actorsModel = ActorsModel(ActorsDataSourceImpl())
+    lateinit private var mService: RetrofitServices
 
     //data lists
     val moviesList: LiveData<List<Movie>> get() = _moviesList
@@ -34,12 +45,27 @@ class  MainViewModel: ViewModel() {
 
     val converter = ConverterForEntities()
 
+
     init {
+        mService = Common.retrofitService
         loadMovies()
     }
 
     fun loadMovies(){
         _moviesList.postValue(converter.movieDtoListtoMovieList(moviesModel.getMovies()))
+
+    }
+
+     fun getAllMovieList() {
+        mService.getPopularMovies().enqueue(object : Callback<MutableList<MovieInList>> {
+            override fun onFailure(call: Call<MutableList<MovieInList>>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<MutableList<MovieInList>>, response: Response<MutableList<MovieInList>>) {
+               val movies = response.body() as MutableList<MovieInList>
+            }
+        })
     }
 
     fun setMovieGenre(genre: Genre){
