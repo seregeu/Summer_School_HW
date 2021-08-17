@@ -62,13 +62,12 @@ class  MainViewModel: ViewModel() {
     fun restoreMovie()= _moviesList.value?.get(moviePosition)
 
     fun restoreGenre(movie: Movie):Genre {
-        val _movie = applicationDatabase?.movieDao()?.getMovieByTitle(movie.title)
-        val a = applicationDatabase?.movieDao()?.getGenreOfMovie(_movie?.id!!)
-        return a?.first()!!.genres[0]
+        val _movie = applicationDatabase?.movieDao()?.getGenreOfMovie(movie.id!!)
+        return _movie?.first()!!.genres[0]
     }
 
     fun restoreActors(movie: Movie):List<Actor> {
-        val actors = applicationDatabase?.movieDao()?.getActorsOfMovie(movie?.id!!)
+        val actors = applicationDatabase?.movieDao()?.getActorsOfMovie(movie.id!!)
         return actors?.first()!!.actors
     }
 
