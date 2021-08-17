@@ -49,7 +49,7 @@ interface MovieDao {
     @Delete
     fun delete(movie: Movie)
 
-    @Query("DELETE FROM movies WHERE id = :movieId")
+    @Query("DELETE FROM movies WHERE movie_id = :movieId")
     fun deleteById(movieId: Long)
 
     @Query("DELETE FROM movies")

@@ -59,7 +59,7 @@ class ConverterForEntities {
         val movieActorRelations = mutableListOf<MovieToActorCrossRef>()
         for(movie in movieDtoList){
             for (actor in movie.actors) {
-                movieActorRelations.add(MovieToActorCrossRef(movie.title, actor.name))
+                movieActorRelations.add(MovieToActorCrossRef(null,movie.title, actor.name))
             }
         }
         return movieActorRelations
@@ -69,7 +69,7 @@ class ConverterForEntities {
         val movieGenreRelations = mutableListOf<MovieToGenreCrossRef>()
         for(movie in movieDtoList){
             for (genre in movie.genre) {
-                movieGenreRelations.add(MovieToGenreCrossRef(movie.title, genre.genreName))
+                movieGenreRelations.add(MovieToGenreCrossRef(null,movie.title, genre.genreName))
             }
         }
         return movieGenreRelations

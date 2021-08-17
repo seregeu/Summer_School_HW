@@ -21,7 +21,7 @@ interface GenreDao {
     @Delete
     fun delete(genre: Genre)
 
-    @Query("DELETE FROM genres WHERE id = :genreId")
+    @Query("DELETE FROM genres WHERE genre_id = :genreId")
     fun deleteById(genreId: Long)
 
     @Query("DELETE FROM genres WHERE genre_name = :genreName")

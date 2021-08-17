@@ -20,7 +20,7 @@ interface ActorDao {
     @Delete
     fun delete(actor: Actor)
 
-    @Query("DELETE FROM actors WHERE id = :actorId")
+    @Query("DELETE FROM actors WHERE actor_id = :actorId")
     fun deleteById(actorId: Long)
 
     @Query("DELETE FROM actors")

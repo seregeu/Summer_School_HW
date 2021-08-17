@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Actors")
 data class Actor (
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "actor_id")
     val id: Long? = null,
 
     @ColumnInfo(name = "avatar_url")
