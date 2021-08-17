@@ -9,8 +9,8 @@ data class MovieToGenreCrossRef(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long?,
-    @ColumnInfo(name = "title")
-    val movieName: String,
-    @ColumnInfo(name = "genre_name")
-    val GenreName: String
+    @ColumnInfo(name = "movie_id")
+    val movieId: Long,
+    @ColumnInfo(name = "genre_id")
+    val GenreId: Long
 )

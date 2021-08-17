@@ -27,6 +27,10 @@ interface GenreDao {
     @Query("DELETE FROM genres WHERE genre_name = :genreName")
     fun deleteByName(genreName: String)
 
+    @Transaction
+    @Query("SELECT * FROM genres WHERE genre_name = :genreName")
+    fun getGenreByName(genreName: String): Genre
+
     @Query("DELETE FROM genres")
     fun deleteAll()
 }

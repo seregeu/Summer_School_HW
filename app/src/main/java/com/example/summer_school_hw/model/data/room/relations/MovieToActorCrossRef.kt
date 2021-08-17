@@ -9,8 +9,8 @@ data class MovieToActorCrossRef(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long?,
-    @ColumnInfo(name = "title")
-    val movieName: String,
-    @ColumnInfo(name = "name")
-    val ActorName: String
+    @ColumnInfo(name = "movie_id")
+    val movieId: Long,
+    @ColumnInfo(name = "actor_id")
+    val ActorId: Long
 )

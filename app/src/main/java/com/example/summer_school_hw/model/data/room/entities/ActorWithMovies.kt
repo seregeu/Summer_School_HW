@@ -8,8 +8,8 @@ import com.example.summer_school_hw.model.data.room.relations.MovieToActorCrossR
 data class ActorWithMovies (
     @Embedded val actor: Actor,
     @Relation(
-        parentColumn = "ActorName",
-        entityColumn = "MovieName",
+        parentColumn = "ActorID",
+        entityColumn = "MovieID",
         associateBy = Junction(MovieToActorCrossRef::class)
     )
     val movies: List<Movie>
