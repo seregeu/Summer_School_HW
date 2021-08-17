@@ -18,7 +18,7 @@ import com.example.summer_school_hw.model.data.room.ConverterForEntities
 import com.example.summer_school_hw.model.data.room.entities.*
 import com.example.summer_school_hw.model.retrofit.Interface.RetrofitServices
 import com.example.summer_school_hw.model.retrofit.Common
-import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieInList
+import com.example.summer_school_hw.model.retrofit.Models_retrofit.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,13 +57,13 @@ class  MainViewModel: ViewModel() {
     }
 
      fun getAllMovieList() {
-        mService.getPopularMovies().enqueue(object : Callback<MutableList<MovieInList>> {
-            override fun onFailure(call: Call<MutableList<MovieInList>>, t: Throwable) {
+        mService.getPopularMovies().enqueue(object : Callback<Result> {
+            override fun onFailure(call: Call<Result>, t: Throwable) {
 
             }
 
-            override fun onResponse(call: Call<MutableList<MovieInList>>, response: Response<MutableList<MovieInList>>) {
-               val movies = response.body() as MutableList<MovieInList>
+            override fun onResponse(call: Call<Result>, response: Response<Result>) {
+               val movies = response.body() as Result
             }
         })
     }

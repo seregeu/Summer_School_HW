@@ -30,5 +30,16 @@ data class MovieInList (
     @SerializedName("vote_average")
     private val voteAverage: Double,
     @SerializedName("vote_count")
-    private val voteCount: Long
+    private val voteCount: Int
+)
+
+data class Result (
+    val page: Int,
+    val results: List<MovieInList>,
+
+    @SerializedName("total_pages")
+    val totalPages: Int,
+
+    @SerializedName("total_results")
+    val totalResults: Int
 )
