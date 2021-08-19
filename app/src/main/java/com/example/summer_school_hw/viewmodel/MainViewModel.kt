@@ -1,15 +1,11 @@
 package com.example.summer_school_hw.viewmodel
 
 import android.content.Context
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.summer_school_hw.BuildConfig
 import com.example.summer_school_hw.model.MovieRepository
 import com.example.summer_school_hw.model.data.ApplicationDatabase
-import com.example.summer_school_hw.model.data.dto.ActorDto
-import com.example.summer_school_hw.model.data.dto.GenreDto
 import com.example.summer_school_hw.model.data.dto.MovieDto
 import com.example.summer_school_hw.model.data.features.actors.ActorsDataSourceImpl
 import com.example.summer_school_hw.model.data.features.genres.GenresDataSourceImpl
@@ -23,15 +19,6 @@ import com.example.summer_school_hw.model.data.room.relations.MovieToActorCrossR
 import com.example.summer_school_hw.model.data.room.relations.MovieToGenreCrossRef
 import com.example.summer_school_hw.model.retrofit.Interface.RetrofitServices
 import com.example.summer_school_hw.model.retrofit.Common
-import com.example.summer_school_hw.model.retrofit.Models_retrofit.Result
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-
-
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class  MainViewModel: ViewModel() {
     //models
@@ -60,6 +47,8 @@ class  MainViewModel: ViewModel() {
 
     fun getAllMovieList() {
        val movies =  mRepository.getPopularMovieList()
+        mRepository.getMovieCredits()
+        mRepository.getMovieRelease()
 
     }
 

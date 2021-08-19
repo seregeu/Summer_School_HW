@@ -33,7 +33,7 @@ data class MovieInList (
     private val voteCount: Int
 )
 
-data class Result (
+data class MovieInListResult (
     val page: Int,
     val results: List<MovieInList>,
 
