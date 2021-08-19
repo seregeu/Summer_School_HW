@@ -3,6 +3,7 @@ package com.example.summer_school_hw.viewmodel
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.example.summer_school_hw.model.MovieRepository
 import com.example.summer_school_hw.model.data.ApplicationDatabase
@@ -19,6 +20,11 @@ import com.example.summer_school_hw.model.data.room.relations.MovieToActorCrossR
 import com.example.summer_school_hw.model.data.room.relations.MovieToGenreCrossRef
 import com.example.summer_school_hw.model.retrofit.Interface.RetrofitServices
 import com.example.summer_school_hw.model.retrofit.Common
+import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieCredits
+import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieInList
+import com.example.summer_school_hw.model.retrofit.Models_retrofit.ReleaseAnswer
+import kotlinx.coroutines.*
+import kotlin.reflect.KFunction0
 
 class  MainViewModel: ViewModel() {
     //models
@@ -29,9 +35,14 @@ class  MainViewModel: ViewModel() {
     val moviesList: LiveData<List<Movie>> get() = _moviesList
     private val _moviesList = MutableLiveData<List<Movie>>()
 
+
+    private var moviesFromServ: List<MovieInList> = emptyList()
+    lateinit var movieCredits: MovieCredits
+
     //retrofit
-    lateinit private var mService: RetrofitServices
-    lateinit private var mRepository: MovieRepository
+    private var mService: RetrofitServices
+    private var mRepository: MovieRepository
+    lateinit private var releaseAnswer: ReleaseAnswer
 
     private var moviePosition: Int = -1
 
@@ -43,13 +54,19 @@ class  MainViewModel: ViewModel() {
        // loadMovies()
         mService = Common.retrofitService
         mRepository = MovieRepository()
+        getAllMovieList()
+    }
+
+    fun updateMovies(){
+
     }
 
     fun getAllMovieList() {
-       val movies =  mRepository.getPopularMovieList()
-        mRepository.getMovieCredits()
-        mRepository.getMovieRelease()
-
+        val job = GlobalScope.launch(Dispatchers.Default) {
+            moviesFromServ =  mRepository.getPopularMovieList()
+            movieCredits = (mRepository.getMovieCredits()?:null) as MovieCredits
+            releaseAnswer = (mRepository.getMovieRelease()?:null) as ReleaseAnswer
+        }
     }
 
     fun setMovieGenre(genre: Genre){
