@@ -2,11 +2,15 @@ package com.example.summer_school_hw.model.data.room.relations
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity(primaryKeys = ["title", "name"])
+@Entity()
 data class MovieToActorCrossRef(
-    @ColumnInfo(name = "title")
-    val movieName: String,
-    @ColumnInfo(name = "name")
-    val ActorName: String
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    val id: Long?,
+    @ColumnInfo(name = "movie_id")
+    val movieId: Long,
+    @ColumnInfo(name = "actor_id")
+    val ActorId: Long
 )

@@ -9,8 +9,8 @@ import com.example.summer_school_hw.model.data.room.entities.Movie
 data class MovieWithGenres (
     @Embedded val movie: Movie,
     @Relation(
-        parentColumn = "title",
-        entityColumn = "genre_name",
+        parentColumn = "movie_id",
+        entityColumn = "genre_id",
         associateBy = Junction(MovieToGenreCrossRef::class)
     )
     val genres: List<Genre>

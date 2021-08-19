@@ -1,5 +1,6 @@
 package com.example.summer_school_hw.model.data.room.dao
 import androidx.room.*
+import com.example.summer_school_hw.model.data.room.entities.Actor
 import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.example.summer_school_hw.model.data.room.relations.*
 
@@ -10,16 +11,20 @@ interface MovieDao {
     fun getAll(): List<Movie>
 
     @Transaction
-    @Query("SELECT * FROM movies WHERE title = :movieName")
-    fun getGenreOfMovie(movieName: String): List<MovieWithGenres>
+    @Query("SELECT * FROM movies WHERE movie_id = :movieId")
+    fun getGenreOfMovie(movieId: Long): List<MovieWithGenres>
 
     @Transaction
-    @Query("SELECT * FROM genres WHERE genre_name = :genreName")
-    fun getMovieOfGenre(genreName: String): List<GenreWithMovies>
+    @Query("SELECT * FROM genres WHERE genre_id = :genreId")
+    fun getMovieOfGenre(genreId: Long): List<GenreWithMovies>
 
     @Transaction
-    @Query("SELECT * FROM movies WHERE title = :movieName")
-    fun getActorsOfMovie(movieName: String): List<MovieWithActors>
+    @Query("SELECT * FROM movies WHERE movie_id = :movieId")
+    fun getActorsOfMovie(movieId: Long): List<MovieWithActors>
+
+    @Transaction
+    @Query("SELECT * FROM movies WHERE title = :movieTitle")
+    fun getMovieByTitle(movieTitle: String): Movie
 
   /*  @Transaction
     @Query("SELECT * FROM movies WHERE  title = :movieName")
@@ -40,8 +45,11 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGenreToMovieCrossRef(crossRef: MovieToGenreCrossRef)
 
-    @Delete
-    fun deleteMovieToGenreCrossRef(crossRef: MovieToGenreCrossRef)
+    @Query("DELETE FROM movietogenrecrossref")
+    fun deleteMovieToGenreCrossRef()
+
+    @Query("DELETE FROM movietoactorcrossref")
+    fun deleteMovieToActorCrossRef()
 
     @Update
     fun update(movie: Movie)
@@ -49,7 +57,7 @@ interface MovieDao {
     @Delete
     fun delete(movie: Movie)
 
-    @Query("DELETE FROM movies WHERE id = :movieId")
+    @Query("DELETE FROM movies WHERE movie_id = :movieId")
     fun deleteById(movieId: Long)
 
     @Query("DELETE FROM movies")

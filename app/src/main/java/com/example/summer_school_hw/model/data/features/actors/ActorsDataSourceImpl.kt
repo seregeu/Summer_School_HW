@@ -5,7 +5,9 @@ import com.example.summer_school_hw.model.data.dto.GenreDto
 import com.example.summer_school_hw.model.data.features.genres.GenresDataSouce
 
 class ActorsDataSourceImpl: ActorsDataSource{
-    override fun getActors()=listOf(
+    override fun getActors()=listOf(ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lldeQ91GwIVff43JBrpdbAAeYWj.jpg", "Джейсон Стейтем"),
+        ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8NvOcP35qv5UHWEdpqAvQrKnQQz.jpg","Джессика Макнэми"),
+        ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/dCfu2EN7FjISACcjilaJu7evwEc.jpg","Джош Лоусон"),
         ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lkW8gh20BuwzHecXqYH1eRVuWpb.jpg", "Льюис Тан"),
         ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/aAfaMEEqD8syHv5bLi5B3sccrM2.jpg","Холт МакКэллани"),
         ActorDto("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/Am9vM77uZd9bGODugwmWtOfzx6E.jpg","Джош Хартнетт"),

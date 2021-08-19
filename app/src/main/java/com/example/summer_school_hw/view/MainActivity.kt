@@ -23,6 +23,7 @@ import com.example.summer_school_hw.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(){
+
     //for preserving the state of a fragment upon destruction
     companion object {
         private const val MOVIE_ARGUMENT = "MovieArgument"

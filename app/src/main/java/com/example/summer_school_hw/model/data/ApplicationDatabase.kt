@@ -7,21 +7,26 @@ import androidx.room.RoomDatabase
 import com.example.summer_school_hw.model.data.room.dao.ActorDao
 import com.example.summer_school_hw.model.data.room.dao.GenreDao
 import com.example.summer_school_hw.model.data.room.dao.MovieDao
+import com.example.summer_school_hw.model.data.room.dao.UserDao
 import com.example.summer_school_hw.model.data.room.entities.*
 import com.example.summer_school_hw.model.data.room.relations.MovieToActorCrossRef
 import com.example.summer_school_hw.model.data.room.relations.MovieToGenreCrossRef
+import com.example.summer_school_hw.model.data.room.relations.UserToGenreCrossRef
 
 @Database(entities = [
     Movie::class,
     Actor::class,
     Genre::class,
     MovieToActorCrossRef::class,
-    MovieToGenreCrossRef::class], version = 12)
+    MovieToGenreCrossRef::class,
+    User::class,
+    UserToGenreCrossRef::class], version = 16)
 abstract class ApplicationDatabase: RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
     abstract fun actorDao(): ActorDao
     abstract fun genreDao(): GenreDao
+    abstract fun userDao(): UserDao
 
     companion object {
         private const val DATABASE_NAME = "movies_db"

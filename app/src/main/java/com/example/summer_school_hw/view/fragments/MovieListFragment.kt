@@ -33,7 +33,6 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     private var isListUpdated: Boolean = false
     private val BACK_STACK_ROOT_TAG = "movie_details_fragment"
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-
     private val coroutineHandler =
         CoroutineExceptionHandler { _, exception -> Log.i("Coroutine", "Exception") }
 
@@ -65,7 +64,6 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         viewModelInit()
         mainViewModel.initDatabase(requireContext())
         mainViewModel.getAllMovieList()
-
         return view
     }
 

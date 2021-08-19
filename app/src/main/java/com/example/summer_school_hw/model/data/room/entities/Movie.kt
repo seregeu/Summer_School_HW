@@ -7,7 +7,7 @@ import com.example.summer_school_hw.model.data.dto.GenreDto
 @Entity(tableName = "Movies")
 data class Movie (
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "movie_id")
     val id: Long? = null,
 
     @ColumnInfo(name = "title")
