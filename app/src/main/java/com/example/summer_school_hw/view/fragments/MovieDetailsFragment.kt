@@ -82,7 +82,9 @@ class MovieDetailsFragment : Fragment() {
         movieAgeTextView.text = movie.ageRestriction.toString() + "+"
         mainViewModel.restoreMovie()
         val genre = mainViewModel.restoreGenre(movie)
-        movieGenreTextView.text = genre.genreName
+        if (genre != null) {
+            movieGenreTextView.text = genre.genreName
+        }
         movieRatingBar.rating = movie.rateScore!!.toFloat()
         val _actors = mainViewModel.restoreActors(movie)
         actors=_actors

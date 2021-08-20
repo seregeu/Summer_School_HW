@@ -8,10 +8,12 @@ import com.example.summer_school_hw.model.data.room.entities.Genre
 import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.example.summer_school_hw.model.data.room.relations.MovieToActorCrossRef
 import com.example.summer_school_hw.model.data.room.relations.MovieToGenreCrossRef
+import com.example.summer_school_hw.model.retrofit.Models_retrofit.Cast
+import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieInList
 
 class ConverterForEntities {
 
-    fun MovieDto.toMovie() = Movie(
+    /*fun MovieDto.toMovie() = Movie(
         id = null,
         title=title,
         description=description,
@@ -27,7 +29,7 @@ class ConverterForEntities {
             movieList.add(_elem)
         }
         return movieList
-    }
+    }*/
     fun GenreDto.toGenre() = Genre(
         id = null,
         genreName = genreName,
@@ -55,5 +57,39 @@ class ConverterForEntities {
         return  actorList
     }
 
+    fun MovieInList.toMovie() = Movie(
+        id = null,
+        idMDB = id,
+        title=title,
+        description=overview,
+        rateScore = (voteAverage/2).toInt(),
+        ageRestriction=if (adult){18}else{12},
+        imageUrl = "https://image.tmdb.org/t/p/original"+posterPath,
+        posterUrl = "https://image.tmdb.org/t/p/original"+backdropPath
+    )
+
+    fun MovieInListToMovieList(movieInlis:List<MovieInList>):List<Movie>{
+        var movieList = mutableListOf<Movie>()
+        for(elem in movieInlis){
+            var _elem: Movie =elem.toMovie()
+            movieList.add(_elem)
+        }
+        return movieList
+    }
+
+    fun Cast.toActor() = Actor(
+        id = null,
+        avatarURL = "https://image.tmdb.org/t/p/original"+profile_path,
+        name = name
+    )
+
+    fun actorCastListtoActorList( actorCastList: List<Cast>):List<Actor>{
+        var  actorList = mutableListOf<Actor>()
+        for(elem in  actorCastList){
+            var _elem: Actor =elem.toActor()
+            actorList.add(_elem)
+        }
+        return  actorList
+    }
 
 }

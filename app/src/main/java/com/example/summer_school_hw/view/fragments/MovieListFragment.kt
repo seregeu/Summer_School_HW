@@ -114,7 +114,6 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     suspend fun addNewMoviesSuspending() = coroutineScope {
     //throw Exception()
         delay(3000L)
-        mainViewModel.downloadMovies()
     }
 
     private fun initRecyclerViewGenres(view: View) {
