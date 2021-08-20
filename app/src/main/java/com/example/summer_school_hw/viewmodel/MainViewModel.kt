@@ -31,6 +31,7 @@ import retrofit2.Response
 import kotlin.reflect.KFunction0
 
 class  MainViewModel: ViewModel() {
+    private var genresModel = GenresModel(GenresDataSourceImpl())
     //data lists
     val moviesList: LiveData<List<Movie>> get() = _moviesList
     private val _moviesList = MutableLiveData<List<Movie>>()
@@ -50,6 +51,12 @@ class  MainViewModel: ViewModel() {
 
     fun getAllMovieList() {
         getPopularMovieList()
+    }
+
+    fun putGenresToDB(){
+        if (applicationDatabase?.genreDao()?.getAll()?.size == 0) {
+            applicationDatabase?.genreDao()?.insertAll(converter.genreDtoListToGenreList(genresModel.getGenres()))
+        }
     }
 
     fun setMovieGenre(genre: Genre){
@@ -82,6 +89,7 @@ class  MainViewModel: ViewModel() {
     fun initDatabase(context: Context) {
         ApplicationDatabase.initDatabase(context)
         applicationDatabase = ApplicationDatabase.getInstance()!!
+        putGenresToDB()
     }
 
     fun getPopularMovieList(){
@@ -140,9 +148,9 @@ class  MainViewModel: ViewModel() {
         var actorsList = converter.actorCastListtoActorList(castAnswer.cast)
         applicationDatabase?.actorDao()?.insertAll(actorsList)
         val movieActorRelations = mutableListOf<MovieToActorCrossRef>()
-        val movie_id = applicationDatabase?.movieDao()?.getMovieByMDBID(castAnswer.id)!!.id!!
+        val movie_id = applicationDatabase?.movieDao()?.getMovieByMDBID(castAnswer.id)?.id!!
         for (actor in actorsList) {
-            val actor_id = applicationDatabase?.actorDao()?.getActorByName(actor.name)!!.id!!
+            val actor_id = applicationDatabase?.actorDao()?.getActorByName(actor.name)?.id!!
             movieActorRelations.add(MovieToActorCrossRef(null,movie_id, actor_id))
         }
         movieActorRelations.forEach{
