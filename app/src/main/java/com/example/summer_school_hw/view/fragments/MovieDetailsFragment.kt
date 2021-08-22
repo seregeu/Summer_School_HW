@@ -1,8 +1,7 @@
 package com.example.summer_school_hw.ui.main
 
 import android.os.Bundle
-import android.provider.Settings.Global.putInt
-import android.provider.Settings.Global.putString
+import androidx.lifecycle.Observer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,21 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.summer_school_hw.R
 import com.example.summer_school_hw.model.data.RecycleAdapters.ActorRecyclerAdapter
-import com.example.summer_school_hw.model.data.dto.ActorDto
-import com.example.summer_school_hw.model.data.dto.GenreDto
-import com.example.summer_school_hw.model.data.dto.MovieDto
-import com.example.summer_school_hw.model.data.presentation.ActorsModel
 import com.example.summer_school_hw.model.data.room.entities.Actor
 import com.example.summer_school_hw.model.data.room.entities.Genre
 import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.example.summer_school_hw.viewmodel.MainViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
-    var actors: List<Actor> = emptyList()
+    var _actors: List<Actor> = emptyList()
     lateinit var recyclerViewActors: RecyclerView
     lateinit var genre: Genre
 
@@ -41,6 +34,7 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var movieAgeTextView: TextView
     private lateinit var movieRatingBar: RatingBar
     private lateinit var movieGenreTextView: TextView
+    private val actorsAdapter: ActorRecyclerAdapter = ActorRecyclerAdapter()
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
@@ -64,8 +58,18 @@ class MovieDetailsFragment : Fragment() {
         val movie = mainViewModel.restoreMovie()
         if (movie != null) {
             PutDataToForm(view,movie)
+            initObservers(movie.idMDB,view)
         }
         initRecyclerActors(view)
+    }
+
+    fun initObservers(movieId: Int, view: View){
+        mainViewModel.getMovieCreditsById(movieId).observe(viewLifecycleOwner, Observer(::getActors))
+    }
+
+    fun getActors(actorsList: List<Actor>){
+        _actors = actorsList
+        actorsAdapter.actors=_actors
     }
 
     private fun PutDataToForm(view: View, movie: Movie) {
@@ -80,18 +84,17 @@ class MovieDetailsFragment : Fragment() {
         movieNameTextView.text = movie.title
         movieDescriptionTextView.text = movie.description
         movieAgeTextView.text = movie.ageRestriction.toString() + "+"
-        mainViewModel.restoreMovie()
         val genre = mainViewModel.restoreGenre(movie)
         if (genre != null) {
             movieGenreTextView.text = genre.genreName
         }
         movieRatingBar.rating = movie.rateScore!!.toFloat()
         val _actors = mainViewModel.restoreActors(movie)
-        actors=_actors
+        this._actors =_actors
     }
 
     private fun initRecyclerActors(view: View) {
         val recyclerViewActors: RecyclerView = view.findViewById(R.id.rv_actors)
-        recyclerViewActors.adapter = ActorRecyclerAdapter(actors)
+        recyclerViewActors.adapter = actorsAdapter
     }
 }

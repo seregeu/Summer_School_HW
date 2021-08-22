@@ -3,40 +3,30 @@ package com.example.summer_school_hw.viewmodel
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import com.example.summer_school_hw.BuildConfig
+import com.example.summer_school_hw.model.MainRepository
 import com.example.summer_school_hw.model.data.ApplicationDatabase
-import com.example.summer_school_hw.model.data.dto.MovieDto
-import com.example.summer_school_hw.model.data.features.actors.ActorsDataSourceImpl
 import com.example.summer_school_hw.model.data.features.genres.GenresDataSourceImpl
-import com.example.summer_school_hw.model.data.features.movies.MoviesDataSourceImpl
-import com.example.summer_school_hw.model.data.presentation.ActorsModel
 import com.example.summer_school_hw.model.data.presentation.GenresModel
-import com.example.summer_school_hw.model.data.presentation.MoviesModel
 import com.example.summer_school_hw.model.data.room.ConverterForEntities
 import com.example.summer_school_hw.model.data.room.entities.*
 import com.example.summer_school_hw.model.data.room.relations.MovieToActorCrossRef
 import com.example.summer_school_hw.model.data.room.relations.MovieToGenreCrossRef
-import com.example.summer_school_hw.model.retrofit.Interface.RetrofitServices
-import com.example.summer_school_hw.model.retrofit.Common
 import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieCredits
 import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieInList
-import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieInListResult
 import com.example.summer_school_hw.model.retrofit.Models_retrofit.ReleaseAnswer
-import kotlinx.coroutines.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import kotlin.reflect.KFunction0
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class  MainViewModel: ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(val repository: MainRepository) : ViewModel(){
     private var genresModel = GenresModel(GenresDataSourceImpl())
     //data lists
     val moviesList: LiveData<List<Movie>> get() = _moviesList
     private val _moviesList = MutableLiveData<List<Movie>>()
     //retrofit
-    private var mService: RetrofitServices
 
     private var moviePosition: Int = -1
 
@@ -45,12 +35,33 @@ class  MainViewModel: ViewModel() {
     val converter = ConverterForEntities()
 
     init {
-        mService = Common.retrofitService
-        getAllMovieList()
+       // getAllMovieList()
     }
 
     fun getAllMovieList() {
-        getPopularMovieList()
+    }
+
+    fun getMovieReleaseData() : LiveData<ReleaseAnswer> {
+        return liveData {
+            val data = repository.getMovieReleaseData(451048,BuildConfig.THE_MOVIEDB_API_KEY,"ru")
+            data.body()?.let { emit(it) }
+        }
+    }
+
+    fun getMovieCreditsById(movieId: Int) : LiveData<List<Actor>> {
+        return liveData {
+            val data = converter.actorCastListtoActorList(repository.getMovieCreditsById(movieId,BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!.cast)
+            _moviesList.postValue(applicationDatabase?.movieDao()?.getAll())
+            data.let { emit(it) }
+        }
+    }
+
+    suspend fun getPopularMoviesList() {
+        val data = repository.getPopularMoviesList(BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!.results
+        val movies = converter.MovieInListToMovieList(data)
+        putGenresToDB(data)
+        applicationDatabase?.movieDao()?.insertAll(movies)
+        _moviesList.postValue(applicationDatabase?.movieDao()?.getAll())
     }
 
     fun putGenresToDB(){
@@ -74,7 +85,10 @@ class  MainViewModel: ViewModel() {
 
     fun restoreMoviePosition()=moviePosition
 
-    fun restoreMovie()= _moviesList.value?.get(moviePosition)
+    fun restoreMovie():Movie? {
+
+        return _moviesList.value?.get(moviePosition)
+    }
 
     fun restoreGenre(movie: Movie): Genre? {
         val _movie = movie.id?.let { applicationDatabase?.movieDao()?.getGenreOfMovie(it) }
@@ -92,39 +106,11 @@ class  MainViewModel: ViewModel() {
         putGenresToDB()
     }
 
-    fun getPopularMovieList(){
-        val apiKey = BuildConfig.THE_MOVIEDB_API_KEY as String
-        mService.getPopularMovies(apiKey,"ru").enqueue(object : Callback<MovieInListResult> {
-            override fun onFailure(call: Call<MovieInListResult>, t: Throwable) {
-            }
-            override fun onResponse(call: Call<MovieInListResult>, response: Response<MovieInListResult>) {
-                val movies = response.body() as MovieInListResult
-                getMovies(movies.results)
-            }
-        })
-    }
-
     fun getMovies(list: List<MovieInList>){
         val movies = converter.MovieInListToMovieList(list)
         applicationDatabase?.movieDao()?.insertAll(movies)
         _moviesList.postValue(applicationDatabase?.movieDao()?.getAll())
-        getActorsFromApi(list)
         putGenresToDB(list)
-    }
-
-    fun getActorsFromApi(list: List<MovieInList>){
-        val apiKey = BuildConfig.THE_MOVIEDB_API_KEY as String
-        for (movie in list) {
-            mService.getMovieCredits(movie.id,apiKey,"ru").enqueue(object : Callback<MovieCredits> {
-                override fun onFailure(call: Call<MovieCredits>, t: Throwable) {
-
-                }
-                override fun onResponse(call: Call<MovieCredits>, response: Response<MovieCredits>) {
-                    val credits = response.body() as MovieCredits
-                    putActorsToDB(credits)
-                }
-            })
-        }
     }
 
     fun putGenresToDB(list: List<MovieInList>){

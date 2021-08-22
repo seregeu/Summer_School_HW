@@ -21,7 +21,9 @@ import com.example.summer_school_hw.view.fragments.UserInfoFragment
 import com.example.summer_school_hw.ui.main.MovieListFragment
 import com.example.summer_school_hw.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
 
     //for preserving the state of a fragment upon destruction
