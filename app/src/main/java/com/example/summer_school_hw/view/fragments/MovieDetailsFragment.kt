@@ -89,8 +89,6 @@ class MovieDetailsFragment : Fragment() {
             movieGenreTextView.text = genre.genreName
         }
         movieRatingBar.rating = movie.rateScore!!.toFloat()
-        val _actors = mainViewModel.restoreActors(movie)
-        this._actors =_actors
     }
 
     private fun initRecyclerActors(view: View) {

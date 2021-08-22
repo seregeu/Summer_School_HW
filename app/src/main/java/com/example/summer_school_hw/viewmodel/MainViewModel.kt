@@ -56,9 +56,9 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
     suspend fun getPopularMoviesList() {
         val data = repository.getPopularMoviesList(BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!.results
         val movies = converter.MovieInListToMovieList(data)
-        putGenresToDB(data)
         applicationDatabase?.movieDao()?.insertAll(movies)
-        _moviesList.postValue(applicationDatabase?.movieDao()?.getAll())
+        putGenresToDBRel(data)
+        _moviesList.postValue(movies)
     }
 
     fun putGenresToDB(){
@@ -102,14 +102,7 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
         putGenresToDB()
     }
 
-    fun getMovies(list: List<MovieInList>){
-        val movies = converter.MovieInListToMovieList(list)
-        applicationDatabase?.movieDao()?.insertAll(movies)
-        _moviesList.postValue(applicationDatabase?.movieDao()?.getAll())
-        putGenresToDB(list)
-    }
-
-    fun putGenresToDB(list: List<MovieInList>){
+    fun putGenresToDBRel(list: List<MovieInList>){
         val movieGenreRelations = mutableListOf<MovieToGenreCrossRef>()
         for(movie in list){
             val movie_id = applicationDatabase?.movieDao()?.getMovieByTitle(movie.title)!!.id!!
