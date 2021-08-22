@@ -27,7 +27,6 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
     val moviesList: LiveData<List<Movie>> get() = _moviesList
     private val _moviesList = MutableLiveData<List<Movie>>()
     //retrofit
-
     private var moviePosition: Int = -1
 
     private var applicationDatabase: ApplicationDatabase? = null
@@ -35,10 +34,6 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
     val converter = ConverterForEntities()
 
     init {
-       // getAllMovieList()
-    }
-
-    fun getAllMovieList() {
     }
 
     fun getMovieReleaseData() : LiveData<ReleaseAnswer> {
@@ -50,9 +45,11 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
 
     fun getMovieCreditsById(movieId: Int) : LiveData<List<Actor>> {
         return liveData {
-            val data = converter.actorCastListtoActorList(repository.getMovieCreditsById(movieId,BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!.cast)
+            val data = repository.getMovieCreditsById(movieId,BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!
+            val actors = converter.actorCastListtoActorList(data.cast)
+            putActorsToDB(data)
             _moviesList.postValue(applicationDatabase?.movieDao()?.getAll())
-            data.let { emit(it) }
+            data.let { emit(actors) }
         }
     }
 
@@ -86,7 +83,6 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
     fun restoreMoviePosition()=moviePosition
 
     fun restoreMovie():Movie? {
-
         return _moviesList.value?.get(moviePosition)
     }
 
