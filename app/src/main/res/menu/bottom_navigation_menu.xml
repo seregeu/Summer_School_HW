@@ -4,11 +4,13 @@
         android:id="@+id/movieListFragment"
         android:icon="@drawable/ic_home"
         android:title=""
+        android:menuCategory="secondary"
         >
     </item>
     <item
         android:id="@+id/userInfoFragment"
         android:icon="@drawable/ic_profile"
         android:title=""
+        android:menuCategory="secondary"
         />
 </menu>

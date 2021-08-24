@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.summer_school_hw.R
 import com.example.summer_school_hw.model.data.dto.ActorDto
+import com.example.summer_school_hw.model.data.room.entities.Actor
 
-class ActorRecyclerAdapter(private val actors: List<ActorDto>) :
+class ActorRecyclerAdapter(private val actors: List<Actor>) :
     RecyclerView.Adapter<ActorRecyclerAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
