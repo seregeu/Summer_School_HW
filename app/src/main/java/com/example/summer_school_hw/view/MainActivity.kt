@@ -16,12 +16,16 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.example.summer_school_hw.R
+import com.example.summer_school_hw.model.workManager.ExampleWorker
 import com.example.summer_school_hw.view.fragments.UserInfoFragment
 import com.example.summer_school_hw.ui.main.MovieListFragment
 import com.example.summer_school_hw.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
@@ -40,4 +44,5 @@ class MainActivity : AppCompatActivity(){
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setupWithNavController(navController)
     }
+
 }

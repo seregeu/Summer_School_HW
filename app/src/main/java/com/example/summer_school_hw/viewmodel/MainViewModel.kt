@@ -47,7 +47,6 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
         return liveData {
             val data = repository.getMovieCreditsById(movieId,BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!
             val actors = converter.actorCastListtoActorList(data.cast)
-            putActorsToDB(data)
             _moviesList.postValue(applicationDatabase?.movieDao()?.getAll())
             data.let { emit(actors) }
         }
@@ -119,17 +118,4 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
         }
     }
 
-    fun putActorsToDB(castAnswer: MovieCredits){
-        var actorsList = converter.actorCastListtoActorList(castAnswer.cast)
-        applicationDatabase?.actorDao()?.insertAll(actorsList)
-        val movieActorRelations = mutableListOf<MovieToActorCrossRef>()
-        val movie_id = applicationDatabase?.movieDao()?.getMovieByMDBID(castAnswer.id)?.id!!
-        for (actor in actorsList) {
-            val actor_id = applicationDatabase?.actorDao()?.getActorByName(actor.name)?.id!!
-            movieActorRelations.add(MovieToActorCrossRef(null,movie_id, actor_id))
-        }
-        movieActorRelations.forEach{
-            applicationDatabase?.movieDao()?.insertMovieToActorCrossRef(it)
-        }
-    }
 }
