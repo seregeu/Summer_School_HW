@@ -1,6 +1,7 @@
 package com.example.summer_school_hw.viewmodel
 
 import android.content.Context
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ import com.example.summer_school_hw.model.data.room.ConverterForEntities
 import com.example.summer_school_hw.model.data.room.entities.*
 import com.example.summer_school_hw.model.data.room.relations.MovieToActorCrossRef
 import com.example.summer_school_hw.model.data.room.relations.MovieToGenreCrossRef
+
 import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieCredits
 import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieInList
 import com.example.summer_school_hw.model.retrofit.Models_retrofit.ReleaseAnswer
@@ -23,6 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(val repository: MainRepository) : ViewModel(){
     private var genresModel = GenresModel(GenresDataSourceImpl())
+
     //data lists
     val moviesList: LiveData<List<Movie>> get() = _moviesList
     private val _moviesList = MutableLiveData<List<Movie>>()
@@ -34,6 +37,7 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
     val converter = ConverterForEntities()
 
     init {
+
     }
 
     fun getMovieReleaseData() : LiveData<ReleaseAnswer> {
@@ -86,6 +90,7 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
         return _moviesList.value?.get(moviePosition)
     }
 
+
     fun restoreGenre(movie: Movie): Genre? {
         val _movie = movie.id?.let { applicationDatabase?.movieDao()?.getGenreOfMovie(it) }
         return _movie?.first()?.genres?.get(0)
@@ -113,6 +118,7 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
 
                 }
             }
+
         }
         movieGenreRelations.forEach{
             applicationDatabase?.movieDao()?.insertMovieToGenreCrossRef(it)
@@ -131,5 +137,6 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
         movieActorRelations.forEach{
             applicationDatabase?.movieDao()?.insertMovieToActorCrossRef(it)
         }
+
     }
 }

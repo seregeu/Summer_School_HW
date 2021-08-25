@@ -30,6 +30,7 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE movieDB_id = :MDBID")
     fun getMovieByMDBID(MDBID: Int): Movie
 
+
   /*  @Transaction
     @Query("SELECT * FROM movies WHERE  title = :movieName")
     suspend fun getActorOfMovie(movieName: String): List<MovieWithActors>*/

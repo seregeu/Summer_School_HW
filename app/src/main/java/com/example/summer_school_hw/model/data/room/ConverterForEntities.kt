@@ -57,6 +57,7 @@ class ConverterForEntities {
         return  actorList
     }
 
+
     fun MovieInList.toMovie() = Movie(
         id = null,
         idMDB = id,
@@ -91,5 +92,4 @@ class ConverterForEntities {
         }
         return  actorList
     }
-
 }
