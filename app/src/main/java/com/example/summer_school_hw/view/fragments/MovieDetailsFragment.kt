@@ -89,6 +89,7 @@ class MovieDetailsFragment : Fragment() {
             movieGenreTextView.text = genre.genreName
         }
         movieRatingBar.rating = movie.rateScore!!.toFloat()
+
     }
 
     private fun initRecyclerActors(view: View) {

@@ -37,6 +37,7 @@ interface GenreDao {
     @Query("SELECT * FROM genres WHERE rest_id = :restId")
     fun getGenreByRestId(restId: Int): Genre
 
+
     @Query("DELETE FROM genres")
     fun deleteAll()
 }
