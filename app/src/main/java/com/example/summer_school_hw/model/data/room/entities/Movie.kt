@@ -9,7 +9,8 @@ data class Movie (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "movie_id")
     val id: Long? = null,
-
+    @ColumnInfo(name = "movieDB_id")
+    val idMDB: Int,
     @ColumnInfo(name = "title")
     val title: String,
 

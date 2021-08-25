@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,11 +23,13 @@ import com.example.summer_school_hw.model.data.RecycleAdapters.SpacesItemDecorat
 import com.example.summer_school_hw.model.data.dto.GenreDto
 import com.example.summer_school_hw.model.data.room.entities.Genre
 import com.example.summer_school_hw.model.data.room.entities.Movie
+import com.example.summer_school_hw.model.retrofit.Models_retrofit.ReleaseAnswer
 import com.example.summer_school_hw.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
-
+@AndroidEntryPoint
 class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, GenreRecyclerAdapter.OnGenreClickListener {
     private var genres: List<Genre> = emptyList()
     lateinit var recyclerViewMovies: RecyclerView
@@ -63,6 +67,14 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         val view = inflater.inflate(R.layout.main_fragment, container, false)
         viewModelInit()
         mainViewModel.initDatabase(requireContext())
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                mainViewModel.getPopularMoviesList()
+            } catch (e: Exception) {
+            }
+        }
+
+        //mainViewModel.getAllMovieList()
         return view
     }
 
@@ -78,6 +90,11 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
 
     private fun viewModelInit() {
         mainViewModel.moviesList.observe(viewLifecycleOwner, Observer(::updateList))
+        //mainViewModel.getPopularMoviesList().observe(viewLifecycleOwner, Observer(::updateList))
+        //mainViewModel.getMovieReleaseData().observe(viewLifecycleOwner, Observer(::getRelease))
+    }
+
+    fun getRelease(data: ReleaseAnswer){
     }
 
     override fun onMovieClick(position: Int) {
@@ -113,7 +130,6 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     suspend fun addNewMoviesSuspending() = coroutineScope {
     //throw Exception()
         delay(3000L)
-        mainViewModel.downloadMovies()
     }
 
     private fun initRecyclerViewGenres(view: View) {

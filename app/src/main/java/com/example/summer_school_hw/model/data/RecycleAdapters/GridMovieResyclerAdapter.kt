@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import coil.load
 import com.example.summer_school_hw.R
-import com.example.summer_school_hw.autoNotify
 import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.google.android.material.imageview.ShapeableImageView
 import kotlin.properties.Delegates
@@ -82,4 +82,20 @@ class GridMovieResyclerAdapter(private val listener: OnItemFilmListener): Recycl
         return position
     }
 
+    fun <T> RecyclerView.Adapter<*>.autoNotify(oldList: List<Movie>, newList: List<T>, compare: (T, T) -> Boolean) {
+
+        val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return oldList[oldItemPosition] == newList[newItemPosition]
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return oldList[oldItemPosition] == newList[newItemPosition]
+            }
+
+            override fun getOldListSize() = oldList.size
+            override fun getNewListSize() = newList.size
+        })
+        diff.dispatchUpdatesTo(this)
+    }
 }
