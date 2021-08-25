@@ -92,5 +92,4 @@ class ConverterForEntities {
         return  actorList
     }
 
-
 }
