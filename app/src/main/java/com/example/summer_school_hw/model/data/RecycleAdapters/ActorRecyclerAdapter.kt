@@ -36,7 +36,11 @@ class ActorRecyclerAdapter() :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val actor = actors[position]
-        holder._ImageView?.load(actor.avatarURL)
+        if(actor.avatarURL!="null"){
+            holder._ImageView?.load(actor.avatarURL)
+        }else{
+            holder._ImageView?.setBackgroundResource(R.drawable.image_no_actor_avatar)
+        }
         holder._TextView?.text = actor.name
     }
 

@@ -34,16 +34,10 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var movieAgeTextView: TextView
     private lateinit var movieRatingBar: RatingBar
     private lateinit var movieGenreTextView: TextView
+    private lateinit var movieReleaseDate: TextView
     private val actorsAdapter: ActorRecyclerAdapter = ActorRecyclerAdapter()
 
     private val mainViewModel: MainViewModel by activityViewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            movieItem = it.getInt("MOVIE")
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,16 +73,18 @@ class MovieDetailsFragment : Fragment() {
         movieAgeTextView = view.findViewById(R.id.text_age_limit)
         movieRatingBar = view.findViewById(R.id.ratingBar_indicator)
         movieGenreTextView = view.findViewById(R.id.text_view_genre)
+        movieReleaseDate = view.findViewById(R.id.text_view_data)
 
         moviePoster.load(movie.posterUrl)
         movieNameTextView.text = movie.title
         movieDescriptionTextView.text = movie.description
+        movieReleaseDate.text = movie.releaseDate
         movieAgeTextView.text = movie.ageRestriction.toString() + "+"
         val genre = mainViewModel.restoreGenre(movie)
         if (genre != null) {
             movieGenreTextView.text = genre.genreName
         }
-        movieRatingBar.rating = movie.rateScore!!.toFloat()
+        movieRatingBar.rating = movie.rateScore.toFloat()
     }
 
     private fun initRecyclerActors(view: View) {

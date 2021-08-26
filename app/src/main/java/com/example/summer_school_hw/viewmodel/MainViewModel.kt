@@ -36,18 +36,11 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
     init {
     }
 
-  /*  fun getMovieReleaseData() : LiveData<ReleaseAnswer> {
-        return liveData {
-            val data = repository.getMovieReleaseData(451048,BuildConfig.THE_MOVIEDB_API_KEY,"ru")
-            data.body()?.let { emit(it) }
-        }
-    }*/
-
     fun getMovieCreditsById(movieId: Int) : LiveData<List<Actor>> {
         return liveData {
             val data = repository.getMovieCreditsById(movieId,BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!
             val actors = converter.actorCastListtoActorList(data.cast)
-            _moviesList.postValue(applicationDatabase?.movieDao()?.getAll())
+            //_moviesList.postValue(applicationDatabase?.movieDao()?.getAll())
             data.let { emit(actors) }
         }
     }
@@ -55,8 +48,8 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
     suspend fun getPopularMoviesList() {
         val data = repository.getPopularMoviesList(BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!.results
         val movies = converter.MovieInListToMovieList(data)
-        applicationDatabase?.movieDao()?.insertAll(movies)
-        putGenresToDBRel(data)
+        //applicationDatabase?.movieDao()?.insertAll(movies)
+       // putGenresToDBRel(data)
         _moviesList.postValue(movies)
     }
 

@@ -1,5 +1,7 @@
 package com.example.summer_school_hw.model.data.room
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.summer_school_hw.model.data.dto.ActorDto
 import com.example.summer_school_hw.model.data.dto.GenreDto
 import com.example.summer_school_hw.model.data.dto.MovieDto
@@ -10,9 +12,11 @@ import com.example.summer_school_hw.model.data.room.relations.MovieToActorCrossR
 import com.example.summer_school_hw.model.data.room.relations.MovieToGenreCrossRef
 import com.example.summer_school_hw.model.retrofit.Models_retrofit.Cast
 import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieInList
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ConverterForEntities {
-
+val no_avatar_url = "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-4-user-grey-d8fe957375e70239d6abdd549fd7568c89281b2179b5f4470e2e12895792dfa5.svg"
     /*fun MovieDto.toMovie() = Movie(
         id = null,
         title=title,
@@ -61,12 +65,19 @@ class ConverterForEntities {
         id = null,
         idMDB = id,
         title=title,
+        releaseDate = movieDateFormater(releaseDate),
         description=overview,
         rateScore = (voteAverage/2).toInt(),
         ageRestriction=if (adult){18}else{12},
         imageUrl = "https://image.tmdb.org/t/p/original"+posterPath,
         posterUrl = "https://image.tmdb.org/t/p/original"+backdropPath
     )
+
+    fun movieDateFormater(date: String):String{
+        var date = LocalDate.parse(date)
+        var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        return date.format(formatter)
+    }
 
     fun MovieInListToMovieList(movieInlis:List<MovieInList>):List<Movie>{
         var movieList = mutableListOf<Movie>()
@@ -79,7 +90,9 @@ class ConverterForEntities {
 
     fun Cast.toActor() = Actor(
         id = null,
-        avatarURL = "https://image.tmdb.org/t/p/original"+profile_path,
+        avatarURL = if(profile_path!=null) {
+            "https://image.tmdb.org/t/p/original" + profile_path
+        }else{"null"},
         name = name
     )
 

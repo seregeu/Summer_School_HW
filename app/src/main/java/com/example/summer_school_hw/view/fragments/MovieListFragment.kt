@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -20,14 +20,13 @@ import com.example.summer_school_hw.R
 import com.example.summer_school_hw.model.data.RecycleAdapters.GenreRecyclerAdapter
 import com.example.summer_school_hw.model.data.RecycleAdapters.GridMovieResyclerAdapter
 import com.example.summer_school_hw.model.data.RecycleAdapters.SpacesItemDecoration
-import com.example.summer_school_hw.model.data.dto.GenreDto
 import com.example.summer_school_hw.model.data.room.entities.Genre
 import com.example.summer_school_hw.model.data.room.entities.Movie
-import com.example.summer_school_hw.model.retrofit.Models_retrofit.ReleaseAnswer
 import com.example.summer_school_hw.viewmodel.MainViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+
 
 @AndroidEntryPoint
 class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, GenreRecyclerAdapter.OnGenreClickListener {
@@ -44,6 +43,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
 
     private lateinit var navController: NavController
 
+    private lateinit var mShimmerViewContainer: ShimmerFrameLayout
     private val CardMargin: Int
         get() {
             return when (resources.configuration.orientation) {
@@ -81,6 +81,8 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
+        mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container)
+        mShimmerViewContainer.startShimmer()
         initRecyclerMovies(view)
         initRecyclerViewGenres(view)
         initSwipeRefreshContainer(view)
@@ -94,12 +96,9 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         //mainViewModel.getMovieReleaseData().observe(viewLifecycleOwner, Observer(::getRelease))
     }
 
-    fun getRelease(data: ReleaseAnswer){
-    }
-
     override fun onMovieClick(position: Int) {
         mainViewModel.selectMovie(position)
-        navController.navigate(R.id.movieDetailsFragment)
+        navController.navigate(R.id.action_movieListFragment_to_movieDetailsFragment)
     }
 
 
@@ -165,5 +164,8 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     fun updateList(list: List<Movie>) {
         MovieAdapter.movies = list
         recyclerViewMovies.scrollToPosition(0)
+        mShimmerViewContainer.stopShimmer()
+        mShimmerViewContainer!!.visibility = View.GONE
+        recyclerViewMovies.visibility=View.VISIBLE
     }
 }
