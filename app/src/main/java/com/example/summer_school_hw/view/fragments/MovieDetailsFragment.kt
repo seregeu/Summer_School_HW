@@ -18,6 +18,7 @@ import com.example.summer_school_hw.model.data.room.entities.Actor
 import com.example.summer_school_hw.model.data.room.entities.Genre
 import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.example.summer_school_hw.viewmodel.MainViewModel
+import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,6 +40,9 @@ class MovieDetailsFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
+    private lateinit var mShimmerViewContainer: ShimmerFrameLayout
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,6 +55,8 @@ class MovieDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val movie = mainViewModel.restoreMovie()
         if (movie != null) {
+            mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container)
+            mShimmerViewContainer.startShimmer()
             PutDataToForm(view,movie)
             initObservers(movie.idMDB,view)
         }
@@ -64,6 +70,10 @@ class MovieDetailsFragment : Fragment() {
     fun getActors(actorsList: List<Actor>){
         _actors = actorsList
         actorsAdapter.actors=_actors
+        mShimmerViewContainer.stopShimmer()
+        mShimmerViewContainer.visibility = View.GONE
+        recyclerViewActors.visibility=View.VISIBLE
+
     }
 
     private fun PutDataToForm(view: View, movie: Movie) {
@@ -88,7 +98,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun initRecyclerActors(view: View) {
-        val recyclerViewActors: RecyclerView = view.findViewById(R.id.rv_actors)
+        recyclerViewActors = view.findViewById(R.id.rv_actors)
         recyclerViewActors.adapter = actorsAdapter
     }
 }
