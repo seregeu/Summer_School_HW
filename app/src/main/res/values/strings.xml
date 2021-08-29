@@ -12,7 +12,6 @@
         <item>Холт Маккэллани</item>
         <item>Джош Харнетт</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Username_label">Константин</string>
     <string name="User_mail_label">konst.89@mail.com</string>
