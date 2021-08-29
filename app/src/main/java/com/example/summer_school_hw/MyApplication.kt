@@ -28,7 +28,7 @@ class MyApplication : Application(), Configuration.Provider {
 
     private fun initWorker() {
         val request: WorkRequest = PeriodicWorkRequestBuilder<ExampleWorker>(
-            24, TimeUnit.HOURS).setInitialDelay(5,TimeUnit.MINUTES).build()
+            24, TimeUnit.HOURS).build()
         WorkManager.getInstance(applicationContext).enqueue(request)
     }
 }

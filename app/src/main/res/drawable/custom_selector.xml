@@ -10,4 +10,5 @@
             </item>
         </layer-list>
     </item>
+    <item android:drawable="@color/black" android:state_selected="true"/>
 </selector>

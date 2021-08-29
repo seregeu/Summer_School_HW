@@ -38,7 +38,7 @@ class ExampleWorker @AssistedInject constructor(
     override fun doWork(): Result {
         try {
             Log.d("WORKER-My","!doWork!")
-            runBlocking {
+            runBlocking(Dispatchers.IO) {
                 coroutineScope {
                     val data = repository.getPopularMoviesList(BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!.results
                     val movies = converter.MovieInListToMovieList(data)

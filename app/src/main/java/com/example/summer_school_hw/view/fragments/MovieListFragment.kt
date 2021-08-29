@@ -73,8 +73,6 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
             } catch (e: Exception) {
             }
         }
-
-        //mainViewModel.getAllMovieList()
         return view
     }
 
@@ -128,6 +126,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
 
     suspend fun addNewMoviesSuspending() = coroutineScope {
     //throw Exception()
+        mainViewModel.getPopularMoviesList()
         delay(3000L)
     }
 
