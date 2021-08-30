@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -36,6 +37,8 @@ class GridMovieResyclerAdapter(private val listener: OnItemFilmListener): Recycl
         holder.movieRating?.rating  = movie.rateScore.toFloat()
         holder.ageLimit?.text = movie.ageRestriction.toString()+"+"
         Log.i("Bind: ", "bind, position = " + position);
+        val animation = AnimationUtils.loadAnimation(holder.itemView.context,android.R.anim.slide_in_left)
+        holder.itemView.startAnimation(animation)
     }
 
     override fun getItemCount(): Int {

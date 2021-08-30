@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -25,6 +26,8 @@ import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.example.summer_school_hw.viewmodel.MainViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.coroutines.*
 
 
@@ -151,7 +154,8 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         ).apply {
             recyclerViewMovies.layoutManager = this
         }
-        recyclerViewMovies.adapter = MovieAdapter
+        val alphaAdapter =  AlphaInAnimationAdapter(MovieAdapter)
+        recyclerViewMovies.adapter = ScaleInAnimationAdapter (alphaAdapter)
         recyclerViewMovies.addItemDecoration(
             SpacesItemDecoration(
                 getResources().getDimension(R.dimen.movieCardmarginVervical).toInt(),

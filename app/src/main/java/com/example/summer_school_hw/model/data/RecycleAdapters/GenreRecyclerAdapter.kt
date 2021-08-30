@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.summer_school_hw.R
 import com.example.summer_school_hw.model.data.dto.GenreDto
 import com.example.summer_school_hw.model.data.room.entities.Genre
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 
 class GenreRecyclerAdapter(private val genres: List<Genre>,
                            private val listener: GenreRecyclerAdapter.OnGenreClickListener
-) :
-    RecyclerView.Adapter<GenreRecyclerAdapter.MyViewHolder>() {
+):RecyclerView.Adapter<GenreRecyclerAdapter.MyViewHolder>() {
 
    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),View.OnClickListener {
         var _TextView: TextView? = null
