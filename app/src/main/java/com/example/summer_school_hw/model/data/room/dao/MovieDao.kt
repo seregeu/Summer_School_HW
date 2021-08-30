@@ -19,7 +19,7 @@ interface MovieDao {
     fun getMovieOfGenre(genreId: Long): List<GenreWithMovies>
 
     @Transaction
-    @Query("SELECT * FROM movies WHERE movie_id = :movieId")
+    @Query("SELECT * FROM movies WHERE movieDB_id = :movieId")
     fun getActorsOfMovie(movieId: Long): List<MovieWithActors>
 
     @Transaction

@@ -1,7 +1,11 @@
 package com.example.summer_school_hw.viewmodel
 
+import android.app.Application
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,6 +23,7 @@ import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.example.summer_school_hw.model.data.room.relations.MovieToGenreCrossRef
 import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieInList
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 
@@ -35,24 +40,31 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
 
     val converter = ConverterForEntities()
 
+    lateinit var context: Context
+
     init {
     }
 
     fun getMovieCreditsById(movieId: Int) : LiveData<List<Actor>> {
         return liveData {
+            if(isOnline()){
             val data = repository.getMovieCreditsById(movieId,BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!
             val actors = converter.actorCastListtoActorList(data.cast)
-            //_moviesList.postValue(applicationDatabase?.movieDao()?.getAll())
-            data.let { emit(actors) }
+                data.let { emit(actors) }
+            }else{
+                val actors = applicationDatabase?.movieDao()?.getActorsOfMovie(movieId.toLong())?.first()?.actors
+                let { emit(actors!!) }
+            }
         }
     }
 
     suspend fun getPopularMoviesList() {
-        val data = repository.getPopularMoviesList(BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!.results
-        val movies = converter.MovieInListToMovieList(data)
-        //applicationDatabase?.movieDao()?.insertAll(movies)
-       // putGenresToDBRel(data)
-        _moviesList.postValue(movies)
+        if(isOnline()){
+            val data = repository.getPopularMoviesList(BuildConfig.THE_MOVIEDB_API_KEY,"ru").body()!!.results
+            _moviesList.postValue(converter.MovieInListToMovieList(data))
+        }else{
+            _moviesList.postValue(applicationDatabase?.movieDao()?.getAll())
+        }
     }
 
     fun putGenresToDB(){
@@ -61,6 +73,9 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
         }
     }
 
+    public fun setContextViewModel(_context: Context){
+        context = _context
+    }
     fun setMovieGenre(genre: Genre){
         val moviesByGenre= applicationDatabase?.movieDao()?.getMovieOfGenre(genre.id!!)?.first()!!.movies
             _moviesList.postValue(moviesByGenre)
@@ -111,6 +126,31 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
         movieGenreRelations.forEach{
             applicationDatabase?.movieDao()?.insertMovieToGenreCrossRef(it)
         }
+    }
+
+    fun isOnline(): Boolean {
+        val connectivityManager =
+            context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (connectivityManager != null) {
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                    return true
+                }
+            }
+            else{
+                Log.i("Internet", "NONE")
+            }
+        }
+        return false
     }
 
 }

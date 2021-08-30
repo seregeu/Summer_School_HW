@@ -70,6 +70,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         val view = inflater.inflate(R.layout.main_fragment, container, false)
         viewModelInit()
         mainViewModel.initDatabase(requireContext())
+        mainViewModel.setContextViewModel(requireContext())
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 mainViewModel.getPopularMoviesList()
