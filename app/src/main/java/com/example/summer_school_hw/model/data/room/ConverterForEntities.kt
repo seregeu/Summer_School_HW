@@ -61,6 +61,7 @@ val no_avatar_url = "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/gly
         return  actorList
     }
 
+
     fun MovieInList.toMovie() = Movie(
         id = null,
         idMDB = id,
@@ -104,5 +105,4 @@ val no_avatar_url = "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/gly
         }
         return  actorList
     }
-
 }

@@ -76,7 +76,7 @@ class MovieDetailsFragment : Fragment() {
 
     }
 
-    private fun PutDataToForm(view: View, movie: Movie) {
+private fun PutDataToForm(view: View, movie: Movie) {
         moviePoster = view.findViewById(R.id.shapeableImageView)
         movieNameTextView = view.findViewById(R.id.text_film_name)
         movieDescriptionTextView = view.findViewById(R.id.text_film_description)
