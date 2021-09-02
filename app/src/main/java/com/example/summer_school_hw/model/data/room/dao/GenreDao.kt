@@ -33,9 +33,11 @@ interface GenreDao {
     @Transaction
     @Query("SELECT * FROM genres WHERE genre_name = :genreName")
     fun getGenreByName(genreName: String): Genre
+
     @Transaction
     @Query("SELECT * FROM genres WHERE rest_id = :restId")
     fun getGenreByRestId(restId: Int): Genre
+
 
     @Query("DELETE FROM genres")
     fun deleteAll()
