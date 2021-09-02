@@ -16,7 +16,8 @@
         android:layoutDirection="rtl"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/search_menu" />
+        app:menu="@menu/search_menu"
+        android:actionViewClass="android.support.v7.widget.SearchView" />
 
     <TextView
         android:id="@+id/text_popular_now"

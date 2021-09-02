@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
-import android.view.animation.OvershootInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -31,6 +29,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.coroutines.*
 
 
+
 @AndroidEntryPoint
 class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, GenreRecyclerAdapter.OnGenreClickListener {
     private var genres: List<Genre> = emptyList()
@@ -39,6 +38,10 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     private var isListUpdated: Boolean = false
     private val BACK_STACK_ROOT_TAG = "movie_details_fragment"
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
+    private var moviesResycleList = mutableListOf<Movie>()
+
+    private lateinit var searchView: androidx.appcompat.widget.SearchView
     private val coroutineHandler =
         CoroutineExceptionHandler { _, exception -> Log.i("Coroutine", "Exception") }
 
@@ -63,6 +66,36 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
             }
     }
 
+    private fun performSearch() {
+        searchView.setOnQueryTextListener(object :androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                search(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                search(newText)
+                return true
+            }
+        })
+    }
+
+    private fun search(text: String?) {
+        var matchedMovies = mutableListOf<Movie>()
+        text?.let {
+            moviesResycleList.forEach { movie ->
+                if (movie.title.startsWith(text, true)) {
+                    matchedMovies.add(movie)
+                    updateResyclerMovies(matchedMovies)
+                }
+                if(text.length==0){
+                    updateResyclerMovies(moviesResycleList)
+                }
+            }
+            updateResyclerMovies(matchedMovies)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -84,16 +117,18 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container)
+        searchView = view.findViewById(R.id.searchView)
         mShimmerViewContainer.startShimmer()
         initRecyclerMovies(view)
         initRecyclerViewGenres(view)
         initSwipeRefreshContainer(view)
         restoreConfiguration()
+        performSearch()
 
     }
 
     private fun viewModelInit() {
-        mainViewModel.moviesList.observe(viewLifecycleOwner, Observer(::updateList))
+        mainViewModel.moviesList.observe(viewLifecycleOwner, Observer(::updateListMovies))
         //mainViewModel.getPopularMoviesList().observe(viewLifecycleOwner, Observer(::updateList))
         //mainViewModel.getMovieReleaseData().observe(viewLifecycleOwner, Observer(::getRelease))
     }
@@ -165,7 +200,12 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         )
     }
 
-    fun updateList(list: List<Movie>) {
+    fun updateListMovies(list: List<Movie>) {
+        moviesResycleList = list as MutableList<Movie>
+        updateResyclerMovies(list)
+    }
+
+    fun updateResyclerMovies(list: List<Movie>){
         MovieAdapter.movies = list
         recyclerViewMovies.scrollToPosition(0)
         mShimmerViewContainer.stopShimmer()
