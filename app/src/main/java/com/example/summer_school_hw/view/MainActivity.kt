@@ -30,12 +30,6 @@ import java.util.concurrent.TimeUnit
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
 
-    //for preserving the state of a fragment upon destruction
-    companion object {
-        private const val MOVIE_ARGUMENT = "MovieArgument"
-        private const val MOVIE_LIST_UPDATED = "MovieListUpd"
-        private const val MOVIE_SELECTED = "MovieSelected"
-    }
     private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

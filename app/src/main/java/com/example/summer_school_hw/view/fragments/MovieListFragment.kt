@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -20,14 +19,16 @@ import com.example.summer_school_hw.R
 import com.example.summer_school_hw.model.data.RecycleAdapters.GenreRecyclerAdapter
 import com.example.summer_school_hw.model.data.RecycleAdapters.GridMovieResyclerAdapter
 import com.example.summer_school_hw.model.data.RecycleAdapters.SpacesItemDecoration
-import com.example.summer_school_hw.model.data.dto.GenreDto
 import com.example.summer_school_hw.model.data.room.entities.Genre
 import com.example.summer_school_hw.model.data.room.entities.Movie
-import com.example.summer_school_hw.model.retrofit.Models_retrofit.ReleaseAnswer
 import com.example.summer_school_hw.viewmodel.MainViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import kotlinx.coroutines.*
+
+
 
 @AndroidEntryPoint
 class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListener, GenreRecyclerAdapter.OnGenreClickListener {
@@ -37,6 +38,10 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
     private var isListUpdated: Boolean = false
     private val BACK_STACK_ROOT_TAG = "movie_details_fragment"
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
+    private var moviesResycleList = mutableListOf<Movie>()
+
+    private lateinit var searchView: androidx.appcompat.widget.SearchView
     private val coroutineHandler =
         CoroutineExceptionHandler { _, exception -> Log.i("Coroutine", "Exception") }
 
@@ -44,6 +49,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
 
     private lateinit var navController: NavController
 
+    private lateinit var mShimmerViewContainer: ShimmerFrameLayout
     private val CardMargin: Int
         get() {
             return when (resources.configuration.orientation) {
@@ -60,6 +66,36 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
             }
     }
 
+    private fun performSearch() {
+        searchView.setOnQueryTextListener(object :androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                search(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                search(newText)
+                return true
+            }
+        })
+    }
+
+    private fun search(text: String?) {
+        var matchedMovies = mutableListOf<Movie>()
+        text?.let {
+            moviesResycleList.forEach { movie ->
+                if (movie.title.startsWith(text, true)) {
+                    matchedMovies.add(movie)
+                    updateResyclerMovies(matchedMovies)
+                }
+                if(text.length==0){
+                    updateResyclerMovies(moviesResycleList)
+                }
+            }
+            updateResyclerMovies(matchedMovies)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,39 +103,39 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         val view = inflater.inflate(R.layout.main_fragment, container, false)
         viewModelInit()
         mainViewModel.initDatabase(requireContext())
+        mainViewModel.setContextViewModel(requireContext())
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 mainViewModel.getPopularMoviesList()
             } catch (e: Exception) {
             }
         }
-
-        //mainViewModel.getAllMovieList()
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
+        mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container)
+        searchView = view.findViewById(R.id.searchView)
+        mShimmerViewContainer.startShimmer()
         initRecyclerMovies(view)
         initRecyclerViewGenres(view)
         initSwipeRefreshContainer(view)
         restoreConfiguration()
+        performSearch()
 
     }
 
     private fun viewModelInit() {
-        mainViewModel.moviesList.observe(viewLifecycleOwner, Observer(::updateList))
+        mainViewModel.moviesList.observe(viewLifecycleOwner, Observer(::updateListMovies))
         //mainViewModel.getPopularMoviesList().observe(viewLifecycleOwner, Observer(::updateList))
         //mainViewModel.getMovieReleaseData().observe(viewLifecycleOwner, Observer(::getRelease))
     }
 
-    fun getRelease(data: ReleaseAnswer){
-    }
-
     override fun onMovieClick(position: Int) {
         mainViewModel.selectMovie(position)
-        navController.navigate(R.id.movieDetailsFragment)
+        navController.navigate(R.id.action_movieListFragment_to_movieDetailsFragment)
     }
 
 
@@ -129,6 +165,7 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
 
     suspend fun addNewMoviesSuspending() = coroutineScope {
     //throw Exception()
+        mainViewModel.getPopularMoviesList()
         delay(3000L)
     }
 
@@ -153,7 +190,8 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         ).apply {
             recyclerViewMovies.layoutManager = this
         }
-        recyclerViewMovies.adapter = MovieAdapter
+        val alphaAdapter =  AlphaInAnimationAdapter(MovieAdapter)
+        recyclerViewMovies.adapter = ScaleInAnimationAdapter (alphaAdapter)
         recyclerViewMovies.addItemDecoration(
             SpacesItemDecoration(
                 getResources().getDimension(R.dimen.movieCardmarginVervical).toInt(),
@@ -162,8 +200,16 @@ class MovieListFragment : Fragment(), GridMovieResyclerAdapter.OnItemFilmListene
         )
     }
 
-    fun updateList(list: List<Movie>) {
+    fun updateListMovies(list: List<Movie>) {
+        moviesResycleList = list as MutableList<Movie>
+        updateResyclerMovies(list)
+    }
+
+    fun updateResyclerMovies(list: List<Movie>){
         MovieAdapter.movies = list
         recyclerViewMovies.scrollToPosition(0)
+        mShimmerViewContainer.stopShimmer()
+        mShimmerViewContainer!!.visibility = View.GONE
+        recyclerViewMovies.visibility=View.VISIBLE
     }
 }

@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.summer_school_hw"
-        minSdkVersion 23
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -84,4 +84,8 @@ dependencies {
     //workmanger
     implementation 'androidx.hilt:hilt-work:1.0.0'
     implementation "androidx.work:work-runtime-ktx:2.5.0"
+
+    //animation
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
 }

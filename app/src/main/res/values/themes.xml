@@ -18,6 +18,10 @@
         <item name = "cornerSize">20dp</item>
     </style>
 
+    <style name="BottomNavThem" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/black</item>
+    </style>
+
     <style name="ImageRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/ratingbar_icons</item>
         <item name="android:minHeight">@dimen/rb_movie_list_min_h</item>

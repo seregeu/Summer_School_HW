@@ -18,6 +18,7 @@ import com.example.summer_school_hw.model.data.room.entities.Actor
 import com.example.summer_school_hw.model.data.room.entities.Genre
 import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.example.summer_school_hw.viewmodel.MainViewModel
+import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,16 +35,13 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var movieAgeTextView: TextView
     private lateinit var movieRatingBar: RatingBar
     private lateinit var movieGenreTextView: TextView
+    private lateinit var movieReleaseDate: TextView
     private val actorsAdapter: ActorRecyclerAdapter = ActorRecyclerAdapter()
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            movieItem = it.getInt("MOVIE")
-        }
-    }
+    private lateinit var mShimmerViewContainer: ShimmerFrameLayout
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +55,8 @@ class MovieDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val movie = mainViewModel.restoreMovie()
         if (movie != null) {
+            mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container)
+            mShimmerViewContainer.startShimmer()
             PutDataToForm(view,movie)
             initObservers(movie.idMDB,view)
         }
@@ -70,6 +70,10 @@ class MovieDetailsFragment : Fragment() {
     fun getActors(actorsList: List<Actor>){
         _actors = actorsList
         actorsAdapter.actors=_actors
+        mShimmerViewContainer.stopShimmer()
+        mShimmerViewContainer.visibility = View.GONE
+        recyclerViewActors.visibility=View.VISIBLE
+
     }
 
 private fun PutDataToForm(view: View, movie: Movie) {
@@ -79,20 +83,22 @@ private fun PutDataToForm(view: View, movie: Movie) {
         movieAgeTextView = view.findViewById(R.id.text_age_limit)
         movieRatingBar = view.findViewById(R.id.ratingBar_indicator)
         movieGenreTextView = view.findViewById(R.id.text_view_genre)
+        movieReleaseDate = view.findViewById(R.id.text_view_data)
 
         moviePoster.load(movie.posterUrl)
         movieNameTextView.text = movie.title
         movieDescriptionTextView.text = movie.description
+        movieReleaseDate.text = movie.releaseDate
         movieAgeTextView.text = movie.ageRestriction.toString() + "+"
         val genre = mainViewModel.restoreGenre(movie)
         if (genre != null) {
             movieGenreTextView.text = genre.genreName
         }
-        movieRatingBar.rating = movie.rateScore!!.toFloat()
+        movieRatingBar.rating = movie.rateScore.toFloat()
     }
 
     private fun initRecyclerActors(view: View) {
-        val recyclerViewActors: RecyclerView = view.findViewById(R.id.rv_actors)
+        recyclerViewActors = view.findViewById(R.id.rv_actors)
         recyclerViewActors.adapter = actorsAdapter
     }
 }

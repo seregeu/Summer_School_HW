@@ -3,6 +3,7 @@ package com.example.summer_school_hw.model.data.room.entities
 import androidx.room.*
 import com.example.summer_school_hw.model.data.dto.ActorDto
 import com.example.summer_school_hw.model.data.dto.GenreDto
+import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "Movies")
 data class Movie (
@@ -16,6 +17,9 @@ data class Movie (
 
     @ColumnInfo(name = "description")
     val description: String,
+
+    @ColumnInfo(name = "release_date")
+    val releaseDate: String,
 
     @ColumnInfo(name = "rate_score")
     val rateScore: Int,
