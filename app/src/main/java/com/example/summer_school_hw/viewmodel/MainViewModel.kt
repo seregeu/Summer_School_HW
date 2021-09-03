@@ -9,6 +9,7 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.core.content.ContextCompat.getSystemService
 
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,7 @@ import com.example.summer_school_hw.model.data.room.entities.Actor
 import com.example.summer_school_hw.model.data.room.entities.Genre
 import com.example.summer_school_hw.model.data.room.entities.Movie
 import com.example.summer_school_hw.model.data.room.relations.MovieToGenreCrossRef
+
 
 import com.example.summer_school_hw.model.retrofit.Models_retrofit.MovieInList
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,6 +50,7 @@ class MainViewModel @Inject constructor(val repository: MainRepository) : ViewMo
 
 
     init {
+
     }
 
     fun getMovieCreditsById(movieId: Int) : LiveData<List<Actor>> {

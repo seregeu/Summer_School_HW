@@ -22,6 +22,7 @@ import com.example.summer_school_hw.model.data.room.relations.UserToGenreCrossRe
     User::class,
     UserToGenreCrossRef::class], version = 18)
 
+
 abstract class ApplicationDatabase: RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
